@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Юки 3D — Мой карманный компаньон</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Three.js 3D WebGL Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <div id="game-viewport">
+    <!-- 3D WebGL Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- ВЕРХНИЙ ИГРОВОЙ HUD -->
+    <header id="game-hud">
+      <div class="hud-top-row">
+        <!-- Бейдж персонажа -->
+        <div class="heroine-badge" id="btn-heroine-info">
+          <div class="avatar-ring">
+            <span class="avatar-emoji">🌸</span>
+          </div>
+          <div class="name-level-box">
+            <span class="heroine-name" id="hud-name">Юки</span>
+            <span class="heroine-lvl" id="hud-lvl">Ур. 1</span>
+          </div>
+        </div>
+
+        <!-- Валюта -->
+        <div class="currency-group">
+          <div class="currency-pill gold" title="Золотые монеты">
+            <span class="curr-icon">🪙</span>
+            <span id="gold-counter">350</span>
+          </div>
+          <div class="currency-pill crystals" title="Кристаллы">
+            <span class="curr-icon">💎</span>
+            <span id="crystal-counter">25</span>
+          </div>
+        </div>
+
+        <!-- Кнопки управления -->
+        <div class="hud-action-icons">
+          <button class="hud-icon-btn" id="btn-toggle-sound" title="Звук">🔊</button>
+          <button class="hud-icon-btn" id="btn-open-settings" title="Настройки">⚙️</button>
+        </div>
+      </div>
+
+      <!-- Полоски жизненных потребностей (Тамагочи) -->
+      <div class="stats-bar-grid">
+        <div class="stat-pill" id="stat-pill-hunger" title="Сытость">
+          <span class="stat-icon">🍱</span>
+          <div class="stat-track"><div class="stat-fill hunger" id="fill-hunger"></div></div>
+          <span class="stat-num" id="num-hunger">85%</span>
+        </div>
+        <div class="stat-pill" id="stat-pill-hygiene" title="Чистота">
+          <span class="stat-icon">🛁</span>
+          <div class="stat-track"><div class="stat-fill hygiene" id="fill-hygiene"></div></div>
+          <span class="stat-num" id="num-hygiene">90%</span>
+        </div>
+        <div class="stat-pill" id="stat-pill-energy" title="Энергия">
+          <span class="stat-icon">🌙</span>
+          <div class="stat-track"><div class="stat-fill energy" id="fill-energy"></div></div>
+          <span class="stat-num" id="num-energy">75%</span>
+        </div>
+        <div class="stat-pill" id="stat-pill-mood" title="Настроение">
+          <span class="stat-icon">💖</span>
+          <div class="stat-track"><div class="stat-fill mood" id="fill-mood"></div></div>
+          <span class="stat-num" id="num-mood">95%</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ВСПЛЫВАЮЩИЕ ОБЛАКА РЕЧИ И 3D ПОДСКАЗКИ -->
+    <div id="dialogue-bubble" class="dialogue-bubble hidden">
+      <p id="dialogue-text">Привет, хозяин! Погладь меня! ✨</p>
+    </div>
+
+    <!-- ИНТЕРАКТИВНЫЕ ЭЛЕМЕНТЫ ТЕКУЩЕЙ КОМНАТЫ (3D Overlay Controls) -->
+    <div id="room-overlays">
+      <!-- Кухня: Полочка с едой для перетаскивания (Drag & Drop в 3D) -->
+      <div id="kitchen-tray" class="room-action-panel hidden">
+        <div class="tray-header">
+          <span>Потяни еду ко рту Юки:</span>
+        </div>
+        <div class="food-scroll-list" id="food-list">
+          <div class="food-item-drag" data-food="onigiri" data-name="Онигири" data-gain="25">
+            <span class="food-emoji">🍙</span>
+            <span class="food-title">Онигири</span>
+          </div>
+          <div class="food-item-drag" data-food="apple" data-name="Яблоко" data-gain="20">
+            <span class="food-emoji">🍎</span>
+            <span class="food-title">Яблоко</span>
+          </div>
+          <div class="food-item-drag" data-food="cake" data-name="Тортик" data-gain="40">
+            <span class="food-emoji">🍰</span>
+            <span class="food-title">Тортик</span>
+          </div>
+          <div class="food-item-drag" data-food="burger" data-name="Бургер" data-gain="35">
+            <span class="food-emoji">🍔</span>
+            <span class="food-title">Бургер</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ванная: Кнопки душа и намыливания -->
+      <div id="bathroom-controls" class="room-action-panel hidden">
+        <div class="bath-actions-row">
+          <button class="bath-btn" id="btn-tool-sponge">
+            <span class="bath-icon">🧽</span>
+            <span>Мыльная губка</span>
+          </button>
+          <button class="bath-btn" id="btn-tool-shower">
+            <span class="bath-icon">🚿</span>
+            <span>Включить душ</span>
+          </button>
+        </div>
+        <div class="bath-hint" id="bath-hint-text">Водите губкой по Юки, чтобы намылить!</div>
+      </div>
+
+      <!-- Спальня: Тумблер света и сна -->
+      <div id="bedroom-controls" class="room-action-panel hidden">
+        <button class="sleep-toggle-btn" id="btn-toggle-sleep">
+          <span class="sleep-icon" id="sleep-btn-icon">💡</span>
+          <span id="sleep-btn-label">Погасить свет и уложить спать</span>
+        </button>
+      </div>
+
+      <!-- Гостиная: Консоль мини-игры и кнопка микрофона -->
+      <div id="living-controls" class="room-action-panel">
+        <button class="fun-btn mic-btn" id="btn-mic-repeat" title="Говорящий Том: Запись и повтор голоса">
+          <span class="btn-bubble-icon">🎙️</span>
+          <span class="mic-label">Повтори голосок!</span>
+          <span class="mic-status-dot" id="mic-dot"></span>
+        </button>
+        <button class="fun-btn arcade-btn" id="btn-open-arcade" title="Ретро-игры на консоли">
+          <span class="btn-bubble-icon">🎮</span>
+          <span>Аркада</span>
+        </button>
+        <button class="fun-btn wardrobe-btn" id="btn-open-wardrobe" title="Гардероб и стиль">
+          <span class="btn-bubble-icon">👗</span>
+          <span>Наряды</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- НИЖНИЙ ДОК: СВАЙП-НАВИГАЦИЯ ПО 3D КОМНАТАМ -->
+    <nav id="room-dock">
+      <button class="dock-tab active" data-room="0" id="tab-room-0">
+        <span class="dock-emoji">🛋️</span>
+        <span class="dock-name">Гостиная</span>
+      </button>
+      <button class="dock-tab" data-room="1" id="tab-room-1">
+        <span class="dock-emoji">🍱</span>
+        <span class="dock-name">Кухня</span>
+      </button>
+      <button class="dock-tab" data-room="2" id="tab-room-2">
+        <span class="dock-emoji">🛁</span>
+        <span class="dock-name">Ванная</span>
+      </button>
+      <button class="dock-tab" data-room="3" id="tab-room-3">
+        <span class="dock-emoji">🌙</span>
+        <span class="dock-name">Спальня</span>
+      </button>
+    </nav>
+
+    <!-- МОДАЛКА: МИНИ-ИГРА АРКАДЫ (Catcher 60 FPS) -->
+    <div id="modal-arcade" class="game-modal hidden">
+      <div class="modal-box arcade-box">
+        <div class="modal-head">
+          <h3>🎮 Ретро-Аркада: Сладкий Ловец</h3>
+          <button class="btn-close-modal" data-modal="modal-arcade">✖</button>
+        </div>
+        <div class="arcade-stats-bar">
+          <div>Счет: <span id="arcade-score" class="score-highlight">0</span></div>
+          <div>Время: <span id="arcade-timer">25</span>с</div>
+          <div>Рекорд: <span id="arcade-best">0</span></div>
+        </div>
+        <div id="arcade-canvas-zone">
+          <canvas id="arcade-canvas" width="360" height="420"></canvas>
+        </div>
+        <div class="modal-foot">
+          <button class="action-btn-primary" id="btn-start-arcade">Начать игру (+🪙 Монеты)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- МОДАЛКА: ГАРДЕРОБ & САЛОН КРАСОТЫ -->
+    <div id="modal-wardrobe" class="game-modal hidden">
+      <div class="modal-box wardrobe-box">
+        <div class="modal-head">
+          <h3>👗 3D Гардероб Юки</h3>
+          <button class="btn-close-modal" data-modal="modal-wardrobe">✖</button>
+        </div>
+        <div class="wardrobe-items-grid">
+          <div class="wardrobe-card active" data-outfit="pink">
+            <div class="card-icon">🌸</div>
+            <h4>Розовое худи</h4>
+            <span class="card-tag">Надето</span>
+          </div>
+          <div class="wardrobe-card" data-outfit="sailor">
+            <div class="card-icon">🌙</div>
+            <h4>Сейлор-косплей</h4>
+            <span class="card-tag price">15 💎</span>
+          </div>
+          <div class="wardrobe-card" data-outfit="maid">
+            <div class="card-icon">🖤</div>
+            <h4>Горничная</h4>
+            <span class="card-tag price">20 💎</span>
+          </div>
+          <div class="wardrobe-card" data-outfit="pajamas">
+            <div class="card-icon">🧸</div>
+            <h4>Пижамка</h4>
+            <span class="card-tag price">120 🪙</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ТАЧ-ЗОНА И СВАЙП-ИНДИКАТОРЫ -->
+    <div class="swipe-hint-left">‹</div>
+    <div class="swipe-hint-right">›</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
