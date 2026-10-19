@@ -8,12 +8,12 @@ enum RoomType { LIVING, KITCHEN, BATHROOM, BEDROOM }
 @onready var camera: Camera3D = $Camera3D
 @onready var yuki: Node3D = $Yuki
 @onready var dialogue_label: Label = $UI/DialogueBubble/Label
-@onready var hunger_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/HungerCol/HungerBar
-@onready var hygiene_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/HygieneCol/HygieneBar
-@onready var energy_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/EnergyCol/EnergyBar
-@onready var mood_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/MoodCol/MoodBar
-@onready var gold_label: Label = $UI/TopHUD/VBox/TopRow/Currency/GoldLabel
-@onready var room_name_label: Label = $UI/TopHUD/VBox/TopRow/RoomName
+@onready var hunger_bar: ProgressBar = $UI/TopHUD/HBox/StatsGrid/HungerCol/HungerBar
+@onready var hygiene_bar: ProgressBar = $UI/TopHUD/HBox/StatsGrid/HygieneCol/HygieneBar
+@onready var energy_bar: ProgressBar = $UI/TopHUD/HBox/StatsGrid/EnergyCol/EnergyBar
+@onready var mood_bar: ProgressBar = $UI/TopHUD/HBox/StatsGrid/MoodCol/MoodBar
+@onready var gold_label: Label = $UI/TopHUD/HBox/Currency/GoldLabel
+@onready var room_name_label: Label = $UI/TopHUD/HBox/RoomName
 
 @onready var floor_mesh: MeshInstance3D = $Room/Floor
 @onready var wall_mesh: MeshInstance3D = $Room/BackWall

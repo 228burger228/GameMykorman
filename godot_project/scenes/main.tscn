@@ -17,74 +17,74 @@ sky_material = SubResource("Sky_Mat")
 background_mode = 2
 sky = SubResource("Sky_Env")
 ambient_light_source = 2
-ambient_light_color = Color(0.98, 0.92, 0.95, 1)
-ambient_light_energy = 0.5
+ambient_light_color = Color(0.92, 0.93, 0.95, 1)
+ambient_light_energy = 0.35
 tonemap_mode = 2
-tonemap_exposure = 1.05
+tonemap_exposure = 1.0
 ssao_enabled = true
 glow_enabled = true
-glow_bloom = 0.12
+glow_bloom = 0.08
 
 [sub_resource type="StandardMaterial3D" id="Mat_WhiteTrim"]
-albedo_color = Color(1, 1, 1, 1)
-roughness = 0.35
+albedo_color = Color(0.96, 0.96, 0.97, 1)
+roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="Mat_SofaPink"]
-albedo_color = Color(1, 0.52, 0.64, 1)
-roughness = 0.75
-
-[sub_resource type="StandardMaterial3D" id="Mat_PillowYellow"]
-albedo_color = Color(1, 0.88, 0.52, 1)
-roughness = 0.7
-
-[sub_resource type="StandardMaterial3D" id="Mat_RugPink"]
-albedo_color = Color(1, 0.82, 0.88, 1)
+albedo_color = Color(0.82, 0.65, 0.70, 1)
 roughness = 0.85
 
+[sub_resource type="StandardMaterial3D" id="Mat_PillowYellow"]
+albedo_color = Color(0.92, 0.84, 0.68, 1)
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_RugPink"]
+albedo_color = Color(0.88, 0.82, 0.84, 1)
+roughness = 0.9
+
 [sub_resource type="StandardMaterial3D" id="Mat_WoodTable"]
-albedo_color = Color(0.55, 0.36, 0.28, 1)
-roughness = 0.5
+albedo_color = Color(0.70, 0.62, 0.54, 1)
+roughness = 0.6
 
 [sub_resource type="StandardMaterial3D" id="Mat_Console"]
-albedo_color = Color(0.68, 0.35, 0.82, 1)
-roughness = 0.35
+albedo_color = Color(0.45, 0.48, 0.58, 1)
+roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="Mat_PlantGreen"]
-albedo_color = Color(0.28, 0.65, 0.32, 1)
-roughness = 0.45
+albedo_color = Color(0.38, 0.54, 0.42, 1)
+roughness = 0.55
 
 [sub_resource type="StandardMaterial3D" id="Mat_GlassSky"]
-albedo_color = Color(0.55, 0.82, 0.98, 1)
-roughness = 0.1
+albedo_color = Color(0.78, 0.86, 0.94, 1)
+roughness = 0.15
 
 [sub_resource type="StandardMaterial3D" id="Mat_Counter"]
-albedo_color = Color(0.92, 0.94, 0.96, 1)
-roughness = 0.25
+albedo_color = Color(0.94, 0.93, 0.91, 1)
+roughness = 0.3
 
 [sub_resource type="StandardMaterial3D" id="Mat_Fridge"]
-albedo_color = Color(0.72, 0.88, 0.84, 1)
-roughness = 0.35
+albedo_color = Color(0.80, 0.86, 0.84, 1)
+roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="Mat_Tub"]
-albedo_color = Color(0.98, 0.98, 1, 1)
-roughness = 0.15
+albedo_color = Color(0.96, 0.97, 0.98, 1)
+roughness = 0.2
 
 [sub_resource type="StandardMaterial3D" id="Mat_Water"]
 transparency = 1
-albedo_color = Color(0.4, 0.82, 0.95, 0.7)
+albedo_color = Color(0.55, 0.78, 0.88, 0.65)
 roughness = 0.08
 
 [sub_resource type="StandardMaterial3D" id="Mat_BedFrame"]
-albedo_color = Color(0.52, 0.36, 0.26, 1)
-roughness = 0.65
+albedo_color = Color(0.65, 0.58, 0.50, 1)
+roughness = 0.7
 
 [sub_resource type="StandardMaterial3D" id="Mat_Blanket"]
-albedo_color = Color(0.68, 0.75, 0.95, 1)
-roughness = 0.8
+albedo_color = Color(0.72, 0.76, 0.86, 1)
+roughness = 0.85
 
 [sub_resource type="StandardMaterial3D" id="Mat_Chili"]
-albedo_color = Color(0.95, 0.15, 0.1, 1)
-roughness = 0.3
+albedo_color = Color(0.88, 0.22, 0.18, 1)
+roughness = 0.35
 
 [sub_resource type="BoxMesh" id="Mesh_FloorBox"]
 size = Vector3(12, 0.2, 9)
@@ -98,77 +98,77 @@ bottom_radius = 1.6
 height = 0.04
 
 [sub_resource type="StyleBoxFlat" id="Style_TopCard"]
-content_margin_left = 14.0
-content_margin_top = 10.0
-content_margin_right = 14.0
-content_margin_bottom = 10.0
-bg_color = Color(0.12, 0.13, 0.17, 0.88)
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.12, 0.13, 0.18, 0.82)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.12)
-corner_radius_top_left = 18
-corner_radius_top_right = 18
-corner_radius_bottom_right = 18
-corner_radius_bottom_left = 18
-shadow_color = Color(0, 0, 0, 0.3)
-shadow_size = 8
-shadow_offset = Vector2(0, 3)
+border_color = Color(1, 1, 1, 0.1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.22)
+shadow_size = 6
+shadow_offset = Vector2(0, 2)
 
 [sub_resource type="StyleBoxFlat" id="Style_BarBg"]
-bg_color = Color(0.18, 0.2, 0.26, 0.85)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+bg_color = Color(0.20, 0.22, 0.28, 0.75)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="Style_BarHunger"]
-bg_color = Color(1, 0.62, 0.2, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+bg_color = Color(0.92, 0.65, 0.35, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="Style_BarHygiene"]
-bg_color = Color(0.22, 0.82, 0.92, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+bg_color = Color(0.42, 0.78, 0.82, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="Style_BarEnergy"]
-bg_color = Color(0.68, 0.45, 0.98, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+bg_color = Color(0.62, 0.55, 0.85, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="Style_BarMood"]
-bg_color = Color(1, 0.42, 0.62, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+bg_color = Color(0.88, 0.52, 0.65, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="Style_Bubble"]
 content_margin_left = 14.0
 content_margin_top = 8.0
 content_margin_right = 14.0
 content_margin_bottom = 8.0
-bg_color = Color(0.14, 0.15, 0.2, 0.92)
+bg_color = Color(0.12, 0.13, 0.18, 0.88)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 0.55, 0.75, 0.4)
+border_color = Color(0.85, 0.65, 0.72, 0.3)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 10
-shadow_offset = Vector2(0, 4)
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="Style_ActionCard"]
 content_margin_left = 10.0
@@ -311,16 +311,17 @@ environment = SubResource("Env_Main")
 
 [node name="SunLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866025, -0.286788, 0.409576, 0, 0.819152, 0.573576, -0.5, -0.496732, 0.709406, 3.5, 7.5, 4.5)
-light_color = Color(1, 0.98, 0.94, 1)
-light_energy = 0.95
+light_color = Color(1, 0.96, 0.92, 1)
+light_energy = 0.85
 shadow_enabled = true
-shadow_bias = 0.02
+shadow_bias = 0.03
+shadow_blur = 1.5
 
 [node name="RoomOmniLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 2.3, -1.5)
-light_color = Color(1, 0.92, 0.75, 1)
-light_energy = 0.85
-omni_range = 5.5
+light_color = Color(1, 0.94, 0.88, 1)
+light_energy = 0.75
+omni_range = 6.0
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -6.0
@@ -329,9 +330,9 @@ volume_db = -6.0
 volume_db = -2.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 2.1, 6.4)
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 1.85, 6.6)
 current = true
-fov = 36.0
+fov = 34.0
 
 [node name="Room" type="Node3D" parent="."]
 
@@ -516,148 +517,155 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 2.2, 0.3)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -205.0
-offset_top = 14.0
-offset_right = 205.0
-offset_bottom = 106.0
+offset_left = -210.0
+offset_top = 8.0
+offset_right = 210.0
+offset_bottom = 52.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("Style_TopCard")
 
-[node name="VBox" type="VBoxContainer" parent="UI/TopHUD"]
+[node name="HBox" type="HBoxContainer" parent="UI/TopHUD"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
+alignment = 1
 
-[node name="TopRow" type="HBoxContainer" parent="UI/TopHUD/VBox"]
+[node name="HeroineName" type="Label" parent="UI/TopHUD/HBox"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_font_sizes/font_size = 12
+text = "🌸 Юки"
 
-[node name="HeroineName" type="Label" parent="UI/TopHUD/VBox/TopRow"]
+[node name="RoomName" type="Label" parent="UI/TopHUD/HBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "🌸 Юки (Ур. 1)"
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "🛋️ Зал"
 
-[node name="RoomName" type="Label" parent="UI/TopHUD/VBox/TopRow"]
+[node name="Currency" type="HBoxContainer" parent="UI/TopHUD/HBox"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
-theme_override_font_sizes/font_size = 13
-text = "🛋️ Гостиная"
-horizontal_alignment = 1
 
-[node name="Currency" type="HBoxContainer" parent="UI/TopHUD/VBox/TopRow"]
+[node name="CoinIcon" type="Label" parent="UI/TopHUD/HBox/Currency"]
 layout_mode = 2
-alignment = 2
-
-[node name="CoinIcon" type="Label" parent="UI/TopHUD/VBox/TopRow/Currency"]
-layout_mode = 2
+theme_override_font_sizes/font_size = 11
 text = "🪙"
 
-[node name="GoldLabel" type="Label" parent="UI/TopHUD/VBox/TopRow/Currency"]
+[node name="GoldLabel" type="Label" parent="UI/TopHUD/HBox/Currency"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.35, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 0.92, 0.45, 1)
+theme_override_font_sizes/font_size = 12
 text = "350"
 
-[node name="StatsGrid" type="HBoxContainer" parent="UI/TopHUD/VBox"]
+[node name="VSep" type="VSeparator" parent="UI/TopHUD/HBox"]
 layout_mode = 2
-theme_override_constants/separation = 8
 
-[node name="HungerCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
+[node name="StatsGrid" type="HBoxContainer" parent="UI/TopHUD/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = 6
+alignment = 2
 
-[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/HungerCol"]
+[node name="HungerCol" type="HBoxContainer" parent="UI/TopHUD/HBox/StatsGrid"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="UI/TopHUD/HBox/StatsGrid/HungerCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
 theme_override_font_sizes/font_size = 10
-text = "🍙 Сытость"
-horizontal_alignment = 1
+text = "🍙"
 
-[node name="HungerBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/HungerCol"]
-custom_minimum_size = Vector2(0, 8)
+[node name="HungerBar" type="ProgressBar" parent="UI/TopHUD/HBox/StatsGrid/HungerCol"]
+custom_minimum_size = Vector2(24, 6)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_styles/background = SubResource("Style_BarBg")
 theme_override_styles/fill = SubResource("Style_BarHunger")
 value = 85.0
 show_percentage = false
 
-[node name="HygieneCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
+[node name="HygieneCol" type="HBoxContainer" parent="UI/TopHUD/HBox/StatsGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = 3
 
-[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/HygieneCol"]
+[node name="Label" type="Label" parent="UI/TopHUD/HBox/StatsGrid/HygieneCol"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
 theme_override_font_sizes/font_size = 10
-text = "🫧 Чистота"
-horizontal_alignment = 1
+text = "🫧"
 
-[node name="HygieneBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/HygieneCol"]
-custom_minimum_size = Vector2(0, 8)
+[node name="HygieneBar" type="ProgressBar" parent="UI/TopHUD/HBox/StatsGrid/HygieneCol"]
+custom_minimum_size = Vector2(24, 6)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_styles/background = SubResource("Style_BarBg")
 theme_override_styles/fill = SubResource("Style_BarHygiene")
 value = 90.0
 show_percentage = false
 
-[node name="EnergyCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
+[node name="EnergyCol" type="HBoxContainer" parent="UI/TopHUD/HBox/StatsGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = 3
 
-[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/EnergyCol"]
+[node name="Label" type="Label" parent="UI/TopHUD/HBox/StatsGrid/EnergyCol"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
 theme_override_font_sizes/font_size = 10
-text = "⚡ Энергия"
-horizontal_alignment = 1
+text = "⚡"
 
-[node name="EnergyBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/EnergyCol"]
-custom_minimum_size = Vector2(0, 8)
+[node name="EnergyBar" type="ProgressBar" parent="UI/TopHUD/HBox/StatsGrid/EnergyCol"]
+custom_minimum_size = Vector2(24, 6)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_styles/background = SubResource("Style_BarBg")
 theme_override_styles/fill = SubResource("Style_BarEnergy")
 value = 80.0
 show_percentage = false
 
-[node name="MoodCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
+[node name="MoodCol" type="HBoxContainer" parent="UI/TopHUD/HBox/StatsGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = 3
 
-[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/MoodCol"]
+[node name="Label" type="Label" parent="UI/TopHUD/HBox/StatsGrid/MoodCol"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
 theme_override_font_sizes/font_size = 10
-text = "💖 Радость"
-horizontal_alignment = 1
+text = "💖"
 
-[node name="MoodBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/MoodCol"]
-custom_minimum_size = Vector2(0, 8)
+[node name="MoodBar" type="ProgressBar" parent="UI/TopHUD/HBox/StatsGrid/MoodCol"]
+custom_minimum_size = Vector2(24, 6)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_styles/background = SubResource("Style_BarBg")
 theme_override_styles/fill = SubResource("Style_BarMood")
 value = 95.0
 show_percentage = false
 
 [node name="DialogueBubble" type="PanelContainer" parent="UI"]
-anchors_preset = 5
+anchors_preset = 7
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-offset_left = -190.0
-offset_top = 118.0
-offset_right = 190.0
-offset_bottom = 168.0
+anchor_bottom = 1.0
+offset_left = -205.0
+offset_top = -226.0
+offset_right = 205.0
+offset_bottom = -184.0
 grow_horizontal = 2
+grow_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("Style_Bubble")
 
 [node name="Label" type="Label" parent="UI/DialogueBubble"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.96, 0.96, 1, 1)
+theme_override_colors/font_color = Color(0.95, 0.95, 0.98, 1)
 theme_override_font_sizes/font_size = 12
 text = "Привет, хозяин! ✨"
 horizontal_alignment = 1

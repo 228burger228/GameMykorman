@@ -57,7 +57,7 @@ func apply_hd_materials() -> void:
 	face_mat.roughness = 0.6
 	if head_mesh: head_mesh.material_override = face_mat
 
-	var sweat_tex = TextureStudio.create_sweater_texture(Color(1.0, 0.44, 0.58))
+	var sweat_tex = TextureStudio.create_sweater_texture(Color(0.85, 0.58, 0.68))
 	var sweat_mat = StandardMaterial3D.new()
 	sweat_mat.albedo_texture = sweat_tex
 	sweat_mat.roughness = 0.75
