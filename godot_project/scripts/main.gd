@@ -171,10 +171,10 @@ func setup_living_room() -> void:
 	wall_mat.roughness = 0.85
 	if wall_mesh: wall_mesh.material_override = wall_mat
 
-	sun_light.light_color = Color(1.0, 0.98, 0.94)
-	sun_light.light_energy = 0.95
-	room_omni_light.light_energy = 0.85 if is_lamp_on else 0.15
-	room_omni_light.light_color = Color(1.0, 0.92, 0.75)
+	sun_light.light_color = Color(1.0, 0.96, 0.90)
+	sun_light.light_energy = 1.25
+	room_omni_light.light_energy = 1.0 if is_lamp_on else 0.2
+	room_omni_light.light_color = Color(1.0, 0.90, 0.78)
 	if sleep_zzz: sleep_zzz.emitting = false
 
 func setup_kitchen() -> void:
@@ -185,14 +185,14 @@ func setup_kitchen() -> void:
 	if floor_mesh: floor_mesh.material_override = floor_mat
 
 	var wall_mat = StandardMaterial3D.new()
-	wall_mat.albedo_color = Color(0.95, 0.97, 0.96)
-	wall_mat.roughness = 0.7
+	wall_mat.albedo_color = Color(1.0, 0.97, 0.94)
+	wall_mat.roughness = 0.5
 	if wall_mesh: wall_mesh.material_override = wall_mat
 
-	sun_light.light_color = Color(1.0, 1.0, 1.0)
-	sun_light.light_energy = 1.05
-	room_omni_light.light_energy = 0.6
-	room_omni_light.light_color = Color(0.95, 0.98, 1.0)
+	sun_light.light_color = Color(1.0, 0.98, 0.92)
+	sun_light.light_energy = 1.30
+	room_omni_light.light_energy = 0.8
+	room_omni_light.light_color = Color(1.0, 0.94, 0.85)
 	if sleep_zzz: sleep_zzz.emitting = false
 
 func setup_bathroom() -> void:
@@ -209,16 +209,16 @@ func setup_bathroom() -> void:
 	wall_mat.roughness = 0.25
 	if wall_mesh: wall_mesh.material_override = wall_mat
 
-	sun_light.light_color = Color(0.9, 0.96, 1.0)
-	sun_light.light_energy = 0.8
-	room_omni_light.light_energy = 0.9
-	room_omni_light.light_color = Color(0.8, 0.95, 1.0)
+	sun_light.light_color = Color(0.92, 0.98, 1.0)
+	sun_light.light_energy = 1.15
+	room_omni_light.light_energy = 1.1
+	room_omni_light.light_color = Color(0.85, 0.96, 1.0)
 	if sleep_zzz: sleep_zzz.emitting = false
 
 func setup_bedroom() -> void:
 	var floor_mat = StandardMaterial3D.new()
-	floor_mat.albedo_color = Color(0.35, 0.28, 0.38)
-	floor_mat.roughness = 0.85
+	floor_mat.albedo_color = Color(0.82, 0.62, 0.45)
+	floor_mat.roughness = 0.6
 	if floor_mesh: floor_mesh.material_override = floor_mat
 
 	var wall_mat = StandardMaterial3D.new()
@@ -228,11 +228,11 @@ func setup_bedroom() -> void:
 	if wall_mesh: wall_mesh.material_override = wall_mat
 
 	if is_night_lamp_on:
-		sun_light.light_energy = 0.25
-		room_omni_light.light_energy = 0.75
-		room_omni_light.light_color = Color(1.0, 0.85, 0.55)
+		sun_light.light_energy = 0.4
+		room_omni_light.light_energy = 1.0
+		room_omni_light.light_color = Color(1.0, 0.86, 0.58)
 	else:
-		sun_light.light_energy = 0.05
+		sun_light.light_energy = 0.08
 		room_omni_light.light_energy = 0.05
 
 # --- ВЗАИМОДЕЙСТВИЕ В КОМНАТАХ ---
@@ -241,7 +241,7 @@ func toggle_floor_lamp() -> void:
 	is_lamp_on = not is_lamp_on
 	sfx_player.stream = SoundEffects.get_switch_sound()
 	sfx_player.play()
-	room_omni_light.light_energy = 0.85 if is_lamp_on else 0.12
+	room_omni_light.light_energy = 1.0 if is_lamp_on else 0.2
 	if is_lamp_on:
 		show_speech("Щёлк! Стало светло и ярко! 💡")
 	else:
