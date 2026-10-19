@@ -8,12 +8,12 @@ enum RoomType { LIVING, KITCHEN, BATHROOM, BEDROOM }
 @onready var camera: Camera3D = $Camera3D
 @onready var yuki: Node3D = $Yuki
 @onready var dialogue_label: Label = $UI/DialogueBubble/Label
-@onready var hunger_bar: ProgressBar = $UI/TopHUD/StatsGrid/HungerBar
-@onready var hygiene_bar: ProgressBar = $UI/TopHUD/StatsGrid/HygieneBar
-@onready var energy_bar: ProgressBar = $UI/TopHUD/StatsGrid/EnergyBar
-@onready var mood_bar: ProgressBar = $UI/TopHUD/StatsGrid/MoodBar
-@onready var gold_label: Label = $UI/TopHUD/TopRow/Currency/GoldLabel
-@onready var room_name_label: Label = $UI/TopHUD/TopRow/RoomName
+@onready var hunger_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/HungerCol/HungerBar
+@onready var hygiene_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/HygieneCol/HygieneBar
+@onready var energy_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/EnergyCol/EnergyBar
+@onready var mood_bar: ProgressBar = $UI/TopHUD/VBox/StatsGrid/MoodCol/MoodBar
+@onready var gold_label: Label = $UI/TopHUD/VBox/TopRow/Currency/GoldLabel
+@onready var room_name_label: Label = $UI/TopHUD/VBox/TopRow/RoomName
 
 @onready var floor_mesh: MeshInstance3D = $Room/Floor
 @onready var wall_mesh: MeshInstance3D = $Room/BackWall
@@ -29,10 +29,16 @@ enum RoomType { LIVING, KITCHEN, BATHROOM, BEDROOM }
 @onready var bedroom_props: Node3D = $Room/Bedroom
 
 # Панели действий для каждой комнаты
-@onready var living_actions: HBoxContainer = $UI/ActionsBar/LivingActions
-@onready var kitchen_actions: HBoxContainer = $UI/ActionsBar/KitchenActions
-@onready var bathroom_actions: HBoxContainer = $UI/ActionsBar/BathroomActions
-@onready var bedroom_actions: HBoxContainer = $UI/ActionsBar/BedroomActions
+@onready var living_actions: Control = $UI/ActionsBar/LivingActions
+@onready var kitchen_actions: Control = $UI/ActionsBar/KitchenActions
+@onready var bathroom_actions: Control = $UI/ActionsBar/BathroomActions
+@onready var bedroom_actions: Control = $UI/ActionsBar/BedroomActions
+
+# Кнопки навигации по комнатам
+@onready var living_tab_btn: Button = $UI/RoomTabs/HBox/LivingTab
+@onready var kitchen_tab_btn: Button = $UI/RoomTabs/HBox/KitchenTab
+@onready var bathroom_tab_btn: Button = $UI/RoomTabs/HBox/BathroomTab
+@onready var bedroom_tab_btn: Button = $UI/RoomTabs/HBox/BedroomTab
 
 # Частицы комнат
 @onready var bath_bubbles: GPUParticles3D = $Room/Bathroom/SoapBubbles
@@ -65,10 +71,10 @@ func _ready() -> void:
 		yuki.slept.connect(_on_yuki_slept)
 
 	# Подключение кнопок навигации по комнатам
-	$UI/RoomTabs/LivingTab.pressed.connect(func(): switch_room(RoomType.LIVING))
-	$UI/RoomTabs/KitchenTab.pressed.connect(func(): switch_room(RoomType.KITCHEN))
-	$UI/RoomTabs/BathroomTab.pressed.connect(func(): switch_room(RoomType.BATHROOM))
-	$UI/RoomTabs/BedroomTab.pressed.connect(func(): switch_room(RoomType.BEDROOM))
+	living_tab_btn.pressed.connect(func(): switch_room(RoomType.LIVING))
+	kitchen_tab_btn.pressed.connect(func(): switch_room(RoomType.KITCHEN))
+	bathroom_tab_btn.pressed.connect(func(): switch_room(RoomType.BATHROOM))
+	bedroom_tab_btn.pressed.connect(func(): switch_room(RoomType.BEDROOM))
 
 	# Действия: Гостиная
 	$UI/ActionsBar/LivingActions/PetBtn.pressed.connect(_on_pet_btn_pressed)
@@ -311,7 +317,6 @@ func toggle_bedroom_sleep() -> void:
 	sfx_player.play()
 	
 	if not is_night_lamp_on:
-		# Выключили свет -> Сон
 		sun_light.light_energy = 0.05
 		room_omni_light.light_energy = 0.05
 		if sleep_zzz:
@@ -321,7 +326,6 @@ func toggle_bedroom_sleep() -> void:
 			yuki.trigger_sleep()
 		show_speech("Свет выключен. Юки сладко засыпает... Z-z-z... 🌙💤")
 	else:
-		# Включили свет -> Пробуждение
 		sun_light.light_energy = 0.25
 		room_omni_light.light_energy = 0.75
 		if sleep_zzz:

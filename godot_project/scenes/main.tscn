@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://c6y7mainscene4"]
+[gd_scene load_steps=47 format=3 uid="uid://c6y7mainscene4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://yriggedyuki442" path="res://scenes/yuki_rigged.tscn" id="2_yuki"]
@@ -96,6 +96,212 @@ size = Vector3(12, 6, 0.2)
 top_radius = 1.6
 bottom_radius = 1.6
 height = 0.04
+
+[sub_resource type="StyleBoxFlat" id="Style_TopCard"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.12, 0.13, 0.17, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.12)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="Style_BarBg"]
+bg_color = Color(0.18, 0.2, 0.26, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_BarHunger"]
+bg_color = Color(1, 0.62, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_BarHygiene"]
+bg_color = Color(0.22, 0.82, 0.92, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_BarEnergy"]
+bg_color = Color(0.68, 0.45, 0.98, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_BarMood"]
+bg_color = Color(1, 0.42, 0.62, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_Bubble"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.14, 0.15, 0.2, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.55, 0.75, 0.4)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 10
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="Style_ActionCard"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+bg_color = Color(0.12, 0.13, 0.17, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.12)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 12
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="Style_BtnNormal"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.2, 0.22, 0.28, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.08)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="Style_BtnHover"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.28, 0.3, 0.38, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.22)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="Style_BtnPressed"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.95, 0.42, 0.6, 0.95)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="Theme" id="Theme_Actions"]
+Button/colors/font_color = Color(0.96, 0.96, 0.98, 1)
+Button/font_sizes/font_size = 12
+Button/styles/hover = SubResource("Style_BtnHover")
+Button/styles/normal = SubResource("Style_BtnNormal")
+Button/styles/pressed = SubResource("Style_BtnPressed")
+
+[sub_resource type="StyleBoxFlat" id="Style_RoomDock"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.1, 0.11, 0.15, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.14)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 14
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="Style_TabNormal"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.18, 0.2, 0.26, 0.7)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.06)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="Style_TabHover"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.26, 0.28, 0.36, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="Style_TabActive"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.42, 0.62, 0.95)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="Theme" id="Theme_Tabs"]
+Button/colors/font_color = Color(0.96, 0.96, 0.98, 1)
+Button/font_sizes/font_size = 11
+Button/styles/hover = SubResource("Style_TabHover")
+Button/styles/normal = SubResource("Style_TabNormal")
+Button/styles/pressed = SubResource("Style_TabActive")
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main")
@@ -307,225 +513,315 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 2.2, 0.3)
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="TopHUD" type="PanelContainer" parent="UI"]
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 85.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -205.0
+offset_top = 14.0
+offset_right = 205.0
+offset_bottom = 106.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("Style_TopCard")
 
-[node name="TopRow" type="HBoxContainer" parent="UI/TopHUD"]
+[node name="VBox" type="VBoxContainer" parent="UI/TopHUD"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
-[node name="HeroineName" type="Label" parent="UI/TopHUD/TopRow"]
+[node name="TopRow" type="HBoxContainer" parent="UI/TopHUD/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeroineName" type="Label" parent="UI/TopHUD/VBox/TopRow"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "🌸 Юки (Ур. 1)"
 
-[node name="RoomName" type="Label" parent="UI/TopHUD/TopRow"]
+[node name="RoomName" type="Label" parent="UI/TopHUD/VBox/TopRow"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
-theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 13
 text = "🛋️ Гостиная"
+horizontal_alignment = 1
 
-[node name="Currency" type="HBoxContainer" parent="UI/TopHUD/TopRow"]
+[node name="Currency" type="HBoxContainer" parent="UI/TopHUD/VBox/TopRow"]
 layout_mode = 2
+alignment = 2
 
-[node name="CoinIcon" type="Label" parent="UI/TopHUD/TopRow/Currency"]
+[node name="CoinIcon" type="Label" parent="UI/TopHUD/VBox/TopRow/Currency"]
 layout_mode = 2
 text = "🪙"
 
-[node name="GoldLabel" type="Label" parent="UI/TopHUD/TopRow/Currency"]
+[node name="GoldLabel" type="Label" parent="UI/TopHUD/VBox/TopRow/Currency"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.35, 1)
 theme_override_font_sizes/font_size = 14
 text = "350"
 
-[node name="StatsGrid" type="HBoxContainer" parent="UI/TopHUD"]
+[node name="StatsGrid" type="HBoxContainer" parent="UI/TopHUD/VBox"]
 layout_mode = 2
-size_flags_vertical = 8
 theme_override_constants/separation = 8
 
-[node name="HungerBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(85, 12)
+[node name="HungerCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/HungerCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 10
+text = "🍙 Сытость"
+horizontal_alignment = 1
+
+[node name="HungerBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/HungerCol"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_BarBg")
+theme_override_styles/fill = SubResource("Style_BarHunger")
 value = 85.0
 show_percentage = false
 
-[node name="HygieneBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(85, 12)
+[node name="HygieneCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/HygieneCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 10
+text = "🫧 Чистота"
+horizontal_alignment = 1
+
+[node name="HygieneBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/HygieneCol"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_BarBg")
+theme_override_styles/fill = SubResource("Style_BarHygiene")
 value = 90.0
 show_percentage = false
 
-[node name="EnergyBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(85, 12)
+[node name="EnergyCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/EnergyCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 10
+text = "⚡ Энергия"
+horizontal_alignment = 1
+
+[node name="EnergyBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/EnergyCol"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_BarBg")
+theme_override_styles/fill = SubResource("Style_BarEnergy")
 value = 80.0
 show_percentage = false
 
-[node name="MoodBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(85, 12)
+[node name="MoodCol" type="VBoxContainer" parent="UI/TopHUD/VBox/StatsGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="UI/TopHUD/VBox/StatsGrid/MoodCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 10
+text = "💖 Радость"
+horizontal_alignment = 1
+
+[node name="MoodBar" type="ProgressBar" parent="UI/TopHUD/VBox/StatsGrid/MoodCol"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_BarBg")
+theme_override_styles/fill = SubResource("Style_BarMood")
 value = 95.0
 show_percentage = false
 
 [node name="DialogueBubble" type="PanelContainer" parent="UI"]
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -170.0
-offset_top = -260.0
-offset_right = 170.0
-offset_bottom = -215.0
+offset_left = -190.0
+offset_top = 118.0
+offset_right = 190.0
+offset_bottom = 168.0
 grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_Bubble")
 
 [node name="Label" type="Label" parent="UI/DialogueBubble"]
 layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.96, 1, 1)
 theme_override_font_sizes/font_size = 12
 text = "Привет, хозяин! ✨"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 3
-mouse_filter = 2
 
-[node name="ActionsBar" type="Control" parent="UI"]
-layout_mode = 3
+[node name="ActionsBar" type="PanelContainer" parent="UI"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -215.0
-offset_top = -115.0
-offset_right = 215.0
-offset_bottom = -60.0
+offset_left = -205.0
+offset_top = -176.0
+offset_right = 205.0
+offset_bottom = -80.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = SubResource("Theme_Actions")
+theme_override_styles/panel = SubResource("Style_ActionCard")
 
-[node name="LivingActions" type="HBoxContainer" parent="UI/ActionsBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 6
-alignment = 1
+[node name="LivingActions" type="GridContainer" parent="UI/ActionsBar"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
 
 [node name="PetBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "💖 Гладить"
 
 [node name="SlapBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "👋 Пощёчина"
 
 [node name="TickleBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🌸 Щекотка"
 
 [node name="LampBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "💡 Торшер"
 
 [node name="MusicBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "📻 Радио"
 
 [node name="VoiceBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
-text = "🎙️"
+size_flags_horizontal = 3
+text = "🎙️ Голос"
 
-[node name="KitchenActions" type="HBoxContainer" parent="UI/ActionsBar"]
+[node name="KitchenActions" type="GridContainer" parent="UI/ActionsBar"]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 6
-alignment = 1
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
 
 [node name="OnigiriBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🍙 Онигири (+25)"
 
 [node name="CakeBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🍰 Тортик (+35)"
 
 [node name="ChiliBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🌶️ Острый Чили!"
 
 [node name="TeaBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
-text = "🍵 Чай (+20)"
+size_flags_horizontal = 3
+text = "🍵 Зелёный Чай"
 
 [node name="BathroomActions" type="HBoxContainer" parent="UI/ActionsBar"]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
 [node name="SoapBtn" type="Button" parent="UI/ActionsBar/BathroomActions"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "🫧 Намылить мылом"
+size_flags_horizontal = 3
+text = "🫧 Намылить пеной (+20)"
 
 [node name="ShowerBtn" type="Button" parent="UI/ActionsBar/BathroomActions"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🚿 Тёплый душ (100%)"
 
 [node name="BedroomActions" type="HBoxContainer" parent="UI/ActionsBar"]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 16
+layout_mode = 2
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="SleepBtn" type="Button" parent="UI/ActionsBar/BedroomActions"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🌙 Выключить свет / Спать"
 
-[node name="RoomTabs" type="HBoxContainer" parent="UI"]
-anchors_preset = 12
+[node name="RoomTabs" type="PanelContainer" parent="UI"]
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -50.0
+offset_left = -205.0
+offset_top = -68.0
+offset_right = 205.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 8
+theme = SubResource("Theme_Tabs")
+theme_override_styles/panel = SubResource("Style_RoomDock")
+
+[node name="HBox" type="HBoxContainer" parent="UI/RoomTabs"]
+layout_mode = 2
+theme_override_constants/separation = 6
 alignment = 1
 
-[node name="LivingTab" type="Button" parent="UI/RoomTabs"]
+[node name="LivingTab" type="Button" parent="UI/RoomTabs/HBox"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🛋️ Гостиная"
 
-[node name="KitchenTab" type="Button" parent="UI/RoomTabs"]
+[node name="KitchenTab" type="Button" parent="UI/RoomTabs/HBox"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🍙 Кухня"
 
-[node name="BathroomTab" type="Button" parent="UI/RoomTabs"]
+[node name="BathroomTab" type="Button" parent="UI/RoomTabs/HBox"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🛁 Ванная"
 
-[node name="BedroomTab" type="Button" parent="UI/RoomTabs"]
+[node name="BedroomTab" type="Button" parent="UI/RoomTabs/HBox"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "🛏️ Спальня"
