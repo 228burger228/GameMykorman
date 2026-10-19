@@ -1,0 +1,152 @@
+extends Node3D
+class_name YukiRiggedController
+
+const TextureStudio = preload("res://scripts/texture_studio.gd")
+const SoundEffects = preload("res://scripts/sound_effects.gd")
+
+signal petted
+signal slapped
+signal tickled
+signal fed
+
+enum State { IDLE, PETTING, SLAPPED, TICKLED, LISTENING, EATING }
+
+var current_state: State = State.IDLE
+var state_timer: float = 0.0
+
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var audio_player: AudioStreamPlayer3D = $AudioPlayer
+@onready var impact_stars: GPUParticles3D = $ImpactStars
+@onready var hearts_burst: GPUParticles3D = $HeartsBurst
+
+@onready var head: Node3D = $Root/Hips/Spine/Neck/Head
+@onready var jaw: Node3D = $Root/Hips/Spine/Neck/Head/Jaw
+@onready var head_mesh: MeshInstance3D = $Root/Hips/Spine/Neck/Head/HeadMesh
+@onready var torso_mesh: MeshInstance3D = $Root/Hips/Spine/TorsoMesh
+@onready var left_eye: MeshInstance3D = $Root/Hips/Spine/Neck/Head/LeftEye
+@onready var right_eye: MeshInstance3D = $Root/Hips/Spine/Neck/Head/RightEye
+
+var look_target: Vector2 = Vector2.ZERO
+var pointer_down_time: float = 0.0
+var pointer_moved_dist: float = 0.0
+
+func _ready() -> void:
+	apply_hd_materials()
+	play_animation("idle")
+
+func apply_hd_materials() -> void:
+	# 1. Глаза
+	var eye_tex = TextureStudio.create_anime_eye_texture()
+	var eye_mat = StandardMaterial3D.new()
+	eye_mat.albedo_texture = eye_tex
+	eye_mat.roughness = 0.2
+	eye_mat.metallic = 0.1
+	if left_eye: left_eye.material_override = eye_mat
+	if right_eye: right_eye.material_override = eye_mat
+
+	# 2. Лицо
+	var face_tex = TextureStudio.create_face_texture()
+	var face_mat = StandardMaterial3D.new()
+	face_mat.albedo_texture = face_tex
+	face_mat.roughness = 0.6
+	if head_mesh: head_mesh.material_override = face_mat
+
+	# 3. Свитер
+	var sweat_tex = TextureStudio.create_sweater_texture(Color(1.0, 0.44, 0.58))
+	var sweat_mat = StandardMaterial3D.new()
+	sweat_mat.albedo_texture = sweat_tex
+	sweat_mat.roughness = 0.75
+	if torso_mesh: torso_mesh.material_override = sweat_mat
+
+func _process(delta: float) -> void:
+	state_timer -= delta
+
+	if current_state == State.IDLE:
+		# Тонкое слежение головой за взглядом поверх анимации
+		head.rotation.y = lerp_angle(head.rotation.y, look_target.x * 0.28, 6.0 * delta)
+		head.rotation.x = lerp_angle(head.rotation.x, -look_target.y * 0.18, 6.0 * delta)
+	elif state_timer <= 0.0 and current_state != State.IDLE:
+		return_to_idle()
+
+func return_to_idle() -> void:
+	current_state = State.IDLE
+	play_animation("idle")
+
+func play_animation(anim_name: String, custom_blend: float = 0.15) -> void:
+	if anim_player and anim_player.has_animation(anim_name):
+		anim_player.play(anim_name, custom_blend)
+
+# --- ПУБЛИЧНЫЕ РЕАКЦИИ ТОМА (TALKING TOM FSM) ---
+
+func trigger_slap(from_left: bool = true) -> void:
+	current_state = State.SLAPPED
+	state_timer = 0.95
+	var anim = "slap_left" if from_left else "slap_right"
+	play_animation(anim, 0.05)
+	
+	play_sound(SoundEffects.get_slap_sound())
+	if impact_stars:
+		impact_stars.restart()
+		impact_stars.emitting = true
+	slapped.emit()
+
+func trigger_pet() -> void:
+	if current_state != State.PETTING:
+		current_state = State.PETTING
+		play_animation("pet", 0.2)
+		play_sound(SoundEffects.get_purr_sound())
+		if hearts_burst:
+			hearts_burst.restart()
+			hearts_burst.emitting = true
+	state_timer = 0.7
+	petted.emit()
+
+func trigger_tickle() -> void:
+	current_state = State.TICKLED
+	state_timer = 0.85
+	play_animation("tickle", 0.1)
+	play_sound(SoundEffects.get_giggle_sound())
+	tickled.emit()
+
+func trigger_eat() -> void:
+	current_state = State.EATING
+	state_timer = 1.45
+	play_animation("eat", 0.1)
+	play_sound(SoundEffects.get_crunch_sound())
+	fed.emit()
+
+func trigger_listen() -> void:
+	current_state = State.LISTENING
+	state_timer = 3.2
+	play_animation("listen", 0.25)
+
+func play_sound(stream: AudioStream) -> void:
+	if audio_player and stream:
+		audio_player.stream = stream
+		audio_player.play()
+
+func set_look_target(viewport_relative: Vector2) -> void:
+	look_target = viewport_relative
+
+# --- ОБРАБОТКА ХИТБОКСОВ И КАСАНИЙ ---
+
+func _on_head_area_input_event(_camera, event, _position, _normal, _shape_idx) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			pointer_down_time = Time.get_ticks_msec() / 1000.0
+			pointer_moved_dist = 0.0
+		else:
+			var hold_time = (Time.get_ticks_msec() / 1000.0) - pointer_down_time
+			if hold_time < 0.22 and pointer_moved_dist < 12.0:
+				var is_left = (_position.x < head.global_position.x)
+				trigger_slap(is_left)
+			else:
+				trigger_pet()
+	elif event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		pointer_moved_dist += event.relative.length()
+		if pointer_moved_dist > 20.0:
+			trigger_pet()
+
+func _on_belly_area_input_event(_camera, event, _position, _normal, _shape_idx) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		trigger_tickle()

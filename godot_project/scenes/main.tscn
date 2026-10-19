@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://c6y7mainscene4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
-[ext_resource type="PackedScene" uid="uid://b8m3yuki4chibi" path="res://scenes/yuki.tscn" id="2_yuki"]
+[ext_resource type="PackedScene" uid="uid://yriggedyuki442" path="res://scenes/yuki_rigged.tscn" id="2_yuki"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_Mat"]
 sky_top_color = Color(0.96, 0.92, 0.95, 1)

@@ -1,0 +1,754 @@
+[gd_scene load_steps=31 format=3 uid="uid://yriggedyuki442"]
+
+[ext_resource type="Script" path="res://scripts/yuki_controller.gd" id="1_controller"]
+[ext_resource type="PackedScene" uid="uid://bstarfx9921" path="res://scenes/fx_impact_stars.tscn" id="2_impact_stars"]
+[ext_resource type="PackedScene" uid="uid://bheartsfx8812" path="res://scenes/fx_hearts.tscn" id="3_hearts"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Skin"]
+albedo_color = Color(1, 0.93, 0.89, 1)
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="Mat_Sweater"]
+albedo_color = Color(1, 0.44, 0.58, 1)
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_Hair"]
+albedo_color = Color(1, 0.68, 0.8, 1)
+roughness = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ribbon"]
+albedo_color = Color(0.85, 0.15, 0.3, 1)
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_Skirt"]
+albedo_color = Color(0.2, 0.22, 0.32, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_Legs"]
+albedo_color = Color(0.18, 0.16, 0.24, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_Shoes"]
+albedo_color = Color(0.12, 0.1, 0.15, 1)
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_White"]
+albedo_color = Color(0.98, 0.98, 1, 1)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_Eyes"]
+albedo_color = Color(0.48, 0.25, 0.85, 1)
+roughness = 0.15
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="Mat_Mouth"]
+albedo_color = Color(0.5, 0.18, 0.25, 1)
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="Mesh_Skirt"]
+material = SubResource("Mat_Skirt")
+top_radius = 0.42
+bottom_radius = 0.62
+height = 0.42
+
+[sub_resource type="CapsuleMesh" id="Mesh_Leg"]
+material = SubResource("Mat_Legs")
+radius = 0.13
+height = 0.68
+
+[sub_resource type="BoxMesh" id="Mesh_Boot"]
+material = SubResource("Mat_Shoes")
+size = Vector3(0.22, 0.16, 0.32)
+
+[sub_resource type="CylinderMesh" id="Mesh_Torso"]
+material = SubResource("Mat_Sweater")
+top_radius = 0.48
+bottom_radius = 0.4
+height = 0.68
+
+[sub_resource type="TorusMesh" id="Mesh_Collar"]
+material = SubResource("Mat_White")
+inner_radius = 0.38
+outer_radius = 0.48
+
+[sub_resource type="CapsuleMesh" id="Mesh_Arm"]
+material = SubResource("Mat_Sweater")
+radius = 0.11
+height = 0.52
+
+[sub_resource type="SphereMesh" id="Mesh_Hand"]
+material = SubResource("Mat_Skin")
+radius = 0.11
+height = 0.22
+
+[sub_resource type="CylinderMesh" id="Mesh_Neck"]
+material = SubResource("Mat_Skin")
+top_radius = 0.15
+bottom_radius = 0.17
+height = 0.22
+
+[sub_resource type="SphereMesh" id="Mesh_Head"]
+material = SubResource("Mat_Skin")
+radius = 0.55
+height = 1.05
+
+[sub_resource type="SphereMesh" id="Mesh_HairCap"]
+material = SubResource("Mat_Hair")
+radius = 0.58
+height = 1.08
+
+[sub_resource type="CylinderMesh" id="Mesh_Bangs"]
+material = SubResource("Mat_Hair")
+top_radius = 0.54
+bottom_radius = 0.58
+height = 0.26
+
+[sub_resource type="SphereMesh" id="Mesh_Eye"]
+material = SubResource("Mat_Eyes")
+radius = 0.15
+height = 0.28
+
+[sub_resource type="BoxMesh" id="Mesh_Eyelid"]
+material = SubResource("Mat_Skin")
+size = Vector3(0.32, 0.18, 0.08)
+
+[sub_resource type="CylinderMesh" id="Mesh_Mouth"]
+material = SubResource("Mat_Mouth")
+top_radius = 0.1
+bottom_radius = 0.04
+height = 0.06
+
+[sub_resource type="CylinderMesh" id="Mesh_Ear"]
+material = SubResource("Mat_Hair")
+top_radius = 0.04
+bottom_radius = 0.2
+height = 0.42
+
+[sub_resource type="CylinderMesh" id="Mesh_Twintail"]
+material = SubResource("Mat_Hair")
+top_radius = 0.08
+bottom_radius = 0.24
+height = 0.95
+
+[sub_resource type="BoxMesh" id="Mesh_Ribbon"]
+material = SubResource("Mat_Ribbon")
+size = Vector3(0.18, 0.09, 0.12)
+
+[sub_resource type="SphereShape3D" id="Shape_Head"]
+radius = 0.68
+
+[sub_resource type="SphereShape3D" id="Shape_Belly"]
+radius = 0.58
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "idle"
+length = 2.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Hips/Spine:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.35, 0), Vector3(0, 0.38, 0), Vector3(0, 0.35, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Hips/Spine:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.04, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Root/Hips/Spine/Neck/Head:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.03), Vector3(0, 0, 0.03), Vector3(0, 0, -0.03)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Root/Hips/Spine/Neck/Head/LeftTwintail:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.05), Vector3(0, 0, 0.05), Vector3(0, 0, -0.05)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Root/Hips/Spine/Neck/Head/RightTwintail:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.05), Vector3(0, 0, -0.05), Vector3(0, 0, 0.05)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Root/Hips/Spine/LeftArm:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.1), Vector3(0, 0, -0.05), Vector3(0, 0, -0.1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Root/Hips/Spine/RightArm:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.1), Vector3(0, 0, 0.05), Vector3(0, 0, 0.1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Root/Hips/Spine/Neck/Head/Eyelids:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2.0, 2.15, 2.3, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 0.01, 1), Vector3(1, 0.01, 1), Vector3(1, 1, 1), Vector3(1, 0.01, 1), Vector3(1, 0.01, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_slap_left"]
+resource_name = "slap_left"
+length = 0.95
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Hips/Spine/Neck/Head:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.22, 0.42, 0.65, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.75, -0.38), Vector3(0, -0.32, 0.15), Vector3(0, 0.16, -0.05), Vector3(0, -0.06, 0.02), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Hips/Spine:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.25, 0.55, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.22), Vector3(0, 0, 0.08), Vector3(0, 0, -0.02), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Root/Hips/Spine/Neck/Head/LeftTwintail:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.3, 0.6, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.85), Vector3(0, 0, 0.4), Vector3(0, 0, -0.1), Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Root/Hips/Spine/Neck/Head/RightTwintail:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.3, 0.6, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.75), Vector3(0, 0, 0.35), Vector3(0, 0, -0.08), Vector3(0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Root/Hips/Spine/Neck/Head/Jaw:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.35, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.16, 0.44), Vector3(0, -0.26, 0.44), Vector3(0, -0.16, 0.44), Vector3(0, -0.16, 0.44)]
+}
+
+[sub_resource type="Animation" id="Animation_slap_right"]
+resource_name = "slap_right"
+length = 0.95
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Hips/Spine/Neck/Head:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.22, 0.42, 0.65, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.75, 0.38), Vector3(0, 0.32, -0.15), Vector3(0, -0.16, 0.05), Vector3(0, 0.06, -0.02), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Hips/Spine:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.25, 0.55, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.22), Vector3(0, 0, -0.08), Vector3(0, 0, 0.02), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Root/Hips/Spine/Neck/Head/LeftTwintail:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.3, 0.6, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.75), Vector3(0, 0, -0.35), Vector3(0, 0, 0.08), Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Root/Hips/Spine/Neck/Head/RightTwintail:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.3, 0.6, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.85), Vector3(0, 0, -0.4), Vector3(0, 0, 0.1), Vector3(0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Root/Hips/Spine/Neck/Head/Jaw:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.35, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.16, 0.44), Vector3(0, -0.26, 0.44), Vector3(0, -0.16, 0.44), Vector3(0, -0.16, 0.44)]
+}
+
+[sub_resource type="Animation" id="Animation_pet"]
+resource_name = "pet"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Hips/Spine/Neck/Head:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.45, 0.65, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.12, 0, 0.24), Vector3(0.15, 0, 0.18), Vector3(0.1, 0, 0.22), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Hips/Spine:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.08), Vector3(0, 0, 0.06), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Root/Hips/Spine/Neck/Head/Eyelids:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.6, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 0.01, 1), Vector3(1, 0.8, 1), Vector3(1, 0.8, 1), Vector3(1, 0.01, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Root/Hips/Spine/Neck/Head/LeftEar:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.16), Vector3(0, 0, -0.16), Vector3(0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Root/Hips/Spine/Neck/Head/RightEar:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.16), Vector3(0, 0, 0.16), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tickle"]
+resource_name = "tickle"
+length = 0.85
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Hips:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.25, 0.38, 0.52, 0.7, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.1, 0.88, 1.1), Vector3(0.92, 1.12, 0.92), Vector3(1.08, 0.9, 1.08), Vector3(0.95, 1.08, 0.95), Vector3(1.03, 0.98, 1.03), Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Hips/Spine/Neck/Head:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.25, 0.38, 0.52, 0.7, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.2), Vector3(0, 0, 0.2), Vector3(0, 0, -0.18), Vector3(0, 0, 0.15), Vector3(0, 0, -0.08), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Root/Hips/Spine/LeftArm:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.32, 0.48, 0.65, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.1), Vector3(0, 0, -0.65), Vector3(0, 0, -0.15), Vector3(0, 0, -0.6), Vector3(0, 0, -0.2), Vector3(0, 0, -0.1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Root/Hips/Spine/RightArm:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.32, 0.48, 0.65, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.1), Vector3(0, 0, 0.65), Vector3(0, 0, 0.15), Vector3(0, 0, 0.6), Vector3(0, 0, 0.2), Vector3(0, 0, 0.1)]
+}
+
+[sub_resource type="Animation" id="Animation_listen"]
+resource_name = "listen"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Hips/Spine/RightArm:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35, 2.1, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.1), Vector3(0.7, 0, 1.45), Vector3(0.7, 0, 1.45), Vector3(0, 0, 0.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Hips/Spine/Neck/Head:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.35, 2.1, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.08, 0.15, 0.25), Vector3(0.08, 0.15, 0.25), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Root/Hips/Spine/Neck/Head/LeftEar:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.35, 2.1, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.25), Vector3(0, 0, 0.25), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eat"]
+resource_name = "eat"
+length = 1.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Hips/Spine/Neck/Head/Jaw:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.16, 0.44), Vector3(0, -0.28, 0.44), Vector3(0, -0.16, 0.44), Vector3(0, -0.25, 0.44), Vector3(0, -0.16, 0.44), Vector3(0, -0.24, 0.44), Vector3(0, -0.16, 0.44), Vector3(0, -0.22, 0.44), Vector3(0, -0.16, 0.44), Vector3(0, -0.16, 0.44)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Hips/Spine/Neck/Head:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.2, 1.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.18, 0, 0), Vector3(-0.05, 0, 0), Vector3(0.12, 0, 0), Vector3(-0.04, 0, 0), Vector3(0.1, 0, 0), Vector3(0, 0, 0), Vector3(0.2, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Root/Hips/Spine/Neck/Head/Eyelids:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.9, 1.2, 1.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 0.01, 1), Vector3(1, 0.65, 1), Vector3(1, 0.65, 1), Vector3(1, 0.01, 1), Vector3(1, 0.01, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yuki"]
+_data = {
+"eat": SubResource("Animation_eat"),
+"idle": SubResource("Animation_idle"),
+"listen": SubResource("Animation_listen"),
+"pet": SubResource("Animation_pet"),
+"slap_left": SubResource("Animation_slap_left"),
+"slap_right": SubResource("Animation_slap_right"),
+"tickle": SubResource("Animation_tickle")
+}
+
+[node name="Yuki" type="Node3D"]
+script = ExtResource("1_controller")
+
+[node name="AudioPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
+
+[node name="ImpactStars" parent="." instance=ExtResource("2_impact_stars")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0.45)
+
+[node name="HeartsBurst" parent="." instance=ExtResource("3_hearts")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0.3)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_yuki")
+}
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
+
+[node name="Skirt" type="MeshInstance3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+mesh = SubResource("Mesh_Skirt")
+
+[node name="LeftLeg" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Root/Hips/LeftLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36, 0)
+mesh = SubResource("Mesh_Leg")
+
+[node name="Boot" type="MeshInstance3D" parent="Root/Hips/LeftLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.66, 0.05)
+mesh = SubResource("Mesh_Boot")
+
+[node name="RightLeg" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 0, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Root/Hips/RightLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36, 0)
+mesh = SubResource("Mesh_Leg")
+
+[node name="Boot" type="MeshInstance3D" parent="Root/Hips/RightLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.66, 0.05)
+mesh = SubResource("Mesh_Boot")
+
+[node name="Spine" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+
+[node name="TorsoMesh" type="MeshInstance3D" parent="Root/Hips/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0)
+mesh = SubResource("Mesh_Torso")
+
+[node name="Collar" type="MeshInstance3D" parent="Root/Hips/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+mesh = SubResource("Mesh_Collar")
+
+[node name="BellyArea" type="Area3D" parent="Root/Hips/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root/Hips/Spine/BellyArea"]
+shape = SubResource("Shape_Belly")
+
+[node name="LeftArm" type="Node3D" parent="Root/Hips/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.48, 0.32, 0)
+
+[node name="ArmMesh" type="MeshInstance3D" parent="Root/Hips/Spine/LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+mesh = SubResource("Mesh_Arm")
+
+[node name="Hand" type="MeshInstance3D" parent="Root/Hips/Spine/LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0)
+mesh = SubResource("Mesh_Hand")
+
+[node name="RightArm" type="Node3D" parent="Root/Hips/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, 0.32, 0)
+
+[node name="ArmMesh" type="MeshInstance3D" parent="Root/Hips/Spine/RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+mesh = SubResource("Mesh_Arm")
+
+[node name="Hand" type="MeshInstance3D" parent="Root/Hips/Spine/RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0)
+mesh = SubResource("Mesh_Hand")
+
+[node name="Neck" type="Node3D" parent="Root/Hips/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+
+[node name="NeckMesh" type="MeshInstance3D" parent="Root/Hips/Spine/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("Mesh_Neck")
+
+[node name="Head" type="Node3D" parent="Root/Hips/Spine/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+
+[node name="HeadMesh" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head"]
+mesh = SubResource("Mesh_Head")
+
+[node name="HairCap" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -0.06)
+mesh = SubResource("Mesh_HairCap")
+
+[node name="Bangs" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.32, 0.16)
+mesh = SubResource("Mesh_Bangs")
+
+[node name="LeftEye" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0.04, 0.46)
+mesh = SubResource("Mesh_Eye")
+
+[node name="RightEye" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 0.04, 0.46)
+mesh = SubResource("Mesh_Eye")
+
+[node name="Eyelids" type="Node3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0.08, 0.48)
+
+[node name="LeftLid" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/Eyelids"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0, 0)
+mesh = SubResource("Mesh_Eyelid")
+
+[node name="RightLid" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/Eyelids"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 0, 0)
+mesh = SubResource("Mesh_Eyelid")
+
+[node name="Jaw" type="Node3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0.44)
+
+[node name="MouthMesh" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/Jaw"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("Mesh_Mouth")
+
+[node name="LeftEar" type="Node3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.36, 0.48, 0)
+
+[node name="EarMesh" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/LeftEar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+mesh = SubResource("Mesh_Ear")
+
+[node name="RightEar" type="Node3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.36, 0.48, 0)
+
+[node name="EarMesh" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/RightEar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+mesh = SubResource("Mesh_Ear")
+
+[node name="LeftTwintail" type="Node3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, 0.15, -0.05)
+
+[node name="Ribbon" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/LeftTwintail"]
+mesh = SubResource("Mesh_Ribbon")
+
+[node name="TailMesh" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/LeftTwintail"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, -0.45, 0)
+mesh = SubResource("Mesh_Twintail")
+
+[node name="RightTwintail" type="Node3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0.15, -0.05)
+
+[node name="Ribbon" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/RightTwintail"]
+mesh = SubResource("Mesh_Ribbon")
+
+[node name="TailMesh" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/RightTwintail"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, -0.45, 0)
+mesh = SubResource("Mesh_Twintail")
+
+[node name="HeadArea" type="Area3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root/Hips/Spine/Neck/Head/HeadArea"]
+shape = SubResource("Shape_Head")
+
+[connection signal="input_event" from="Root/Hips/Spine/BellyArea" to="." method="_on_belly_area_input_event"]
+[connection signal="input_event" from="Root/Hips/Spine/Neck/Head/HeadArea" to="." method="_on_head_area_input_event"]
