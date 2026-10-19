@@ -1,7 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://c6y7mainscene4"]
+[gd_scene load_steps=34 format=3 uid="uid://c6y7mainscene4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://yriggedyuki442" path="res://scenes/yuki_rigged.tscn" id="2_yuki"]
+[ext_resource type="PackedScene" uid="uid://bsbubblesfx773" path="res://scenes/fx_soap_bubbles.tscn" id="3_bubbles"]
+[ext_resource type="PackedScene" uid="uid://bsleepzzzfx441" path="res://scenes/fx_sleep_zzz.tscn" id="4_sleep_zzz"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_Mat"]
 sky_top_color = Color(0.96, 0.92, 0.95, 1)
@@ -55,11 +57,40 @@ roughness = 0.45
 albedo_color = Color(0.55, 0.82, 0.98, 1)
 roughness = 0.1
 
+[sub_resource type="StandardMaterial3D" id="Mat_Counter"]
+albedo_color = Color(0.92, 0.94, 0.96, 1)
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Mat_Fridge"]
+albedo_color = Color(0.72, 0.88, 0.84, 1)
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_Tub"]
+albedo_color = Color(0.98, 0.98, 1, 1)
+roughness = 0.15
+
+[sub_resource type="StandardMaterial3D" id="Mat_Water"]
+transparency = 1
+albedo_color = Color(0.4, 0.82, 0.95, 0.7)
+roughness = 0.08
+
+[sub_resource type="StandardMaterial3D" id="Mat_BedFrame"]
+albedo_color = Color(0.52, 0.36, 0.26, 1)
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="Mat_Blanket"]
+albedo_color = Color(0.68, 0.75, 0.95, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_Chili"]
+albedo_color = Color(0.95, 0.15, 0.1, 1)
+roughness = 0.3
+
 [sub_resource type="BoxMesh" id="Mesh_FloorBox"]
-size = Vector3(10, 0.2, 8)
+size = Vector3(12, 0.2, 9)
 
 [sub_resource type="BoxMesh" id="Mesh_WallBox"]
-size = Vector3(10, 6, 0.2)
+size = Vector3(12, 6, 0.2)
 
 [sub_resource type="CylinderMesh" id="Mesh_Rug"]
 top_radius = 1.6
@@ -79,93 +110,197 @@ light_energy = 0.95
 shadow_enabled = true
 shadow_bias = 0.02
 
-[node name="FloorLampLight" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 2.2, -1.8)
+[node name="RoomOmniLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 2.3, -1.5)
 light_color = Color(1, 0.92, 0.75, 1)
 light_energy = 0.85
-omni_range = 4.5
+omni_range = 5.5
+
+[node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -6.0
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -2.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 2.05, 5.2)
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 2.1, 6.4)
 current = true
-fov = 34.0
+fov = 36.0
 
 [node name="Room" type="Node3D" parent="."]
 
 [node name="Floor" type="MeshInstance3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -1)
 mesh = SubResource("Mesh_FloorBox")
 
 [node name="BackWall" type="MeshInstance3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, -3.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
 mesh = SubResource("Mesh_WallBox")
 
-[node name="Baseboard" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -3.8)
-material_override = SubResource("Mat_WhiteTrim")
-size = Vector3(10, 0.3, 0.1)
+[node name="LivingRoom" type="Node3D" parent="Room"]
 
-[node name="Rug" type="MeshInstance3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.1)
+[node name="Rug" type="MeshInstance3D" parent="Room/LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 material_override = SubResource("Mat_RugPink")
 mesh = SubResource("Mesh_Rug")
 
-[node name="Sofa" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.45, -1.8)
+[node name="SofaBase" type="CSGBox3D" parent="Room/LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.25, -2)
 material_override = SubResource("Mat_SofaPink")
-size = Vector3(2.6, 0.65, 1.4)
+size = Vector3(2.6, 0.5, 1.1)
 
-[node name="SofaBack" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 1.1, -2.35)
+[node name="SofaBack" type="CSGBox3D" parent="Room/LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.75, -2.4)
 material_override = SubResource("Mat_SofaPink")
-size = Vector3(2.6, 1.0, 0.35)
+size = Vector3(2.6, 1, 0.35)
 
-[node name="Pillow" type="CSGBox3D" parent="Room"]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.6, 0.95, -2.1)
+[node name="Pillow" type="CSGBox3D" parent="Room/LivingRoom"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -2.1, 0.65, -2)
 material_override = SubResource("Mat_PillowYellow")
-size = Vector3(0.55, 0.55, 0.2)
+size = Vector3(0.5, 0.5, 0.2)
 
-[node name="CoffeeTable" type="CSGCylinder3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 0.45, -1.5)
+[node name="CoffeeTable" type="CSGCylinder3D" parent="Room/LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0.45, -1.5)
 material_override = SubResource("Mat_WoodTable")
-radius = 0.8
-height = 0.9
+radius = 0.75
+height = 0.85
 
-[node name="RetroConsole" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 0.98, -1.5)
+[node name="RetroConsole" type="CSGBox3D" parent="Room/LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0.92, -1.5)
 material_override = SubResource("Mat_Console")
-size = Vector3(0.65, 0.22, 0.4)
+size = Vector3(0.65, 0.18, 0.4)
 
-[node name="PlantPot" type="CSGCylinder3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 0.3, -2.8)
+[node name="PlantPot" type="CSGCylinder3D" parent="Room/LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 0.3, -2.6)
 material_override = SubResource("Mat_WhiteTrim")
 radius = 0.3
 height = 0.6
 
-[node name="PlantLeaves" type="CSGSphere3D" parent="Room/PlantPot"]
+[node name="PlantLeaves" type="CSGSphere3D" parent="Room/LivingRoom/PlantPot"]
 transform = Transform3D(1.2, 0, 0, 0, 0.5, 0, 0, 0, 1.2, 0, 0.45, 0)
 material_override = SubResource("Mat_PlantGreen")
 radius = 0.45
 
-[node name="WindowFrame" type="CSGBox3D" parent="Room"]
+[node name="WindowFrame" type="CSGBox3D" parent="Room/LivingRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, -3.8)
 material_override = SubResource("Mat_WhiteTrim")
 size = Vector3(2.8, 3.2, 0.1)
 
-[node name="WindowGlass" type="CSGBox3D" parent="Room/WindowFrame"]
+[node name="WindowGlass" type="CSGBox3D" parent="Room/LivingRoom/WindowFrame"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
 material_override = SubResource("Mat_GlassSky")
 size = Vector3(2.5, 2.9, 0.05)
 
-[node name="CurtainL" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 3.6, -3.7)
-material_override = SubResource("Mat_SofaPink")
-size = Vector3(0.5, 3.3, 0.15)
+[node name="FloorLampPole" type="CSGCylinder3D" parent="Room/LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 1.4, -1.5)
+material_override = SubResource("Mat_WhiteTrim")
+radius = 0.05
+height = 2.6
 
-[node name="CurtainR" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 3.6, -3.7)
-material_override = SubResource("Mat_SofaPink")
-size = Vector3(0.5, 3.3, 0.15)
+[node name="FloorLampShade" type="CSGCylinder3D" parent="Room/LivingRoom/FloorLampPole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+material_override = SubResource("Mat_PillowYellow")
+radius = 0.35
+height = 0.45
+
+[node name="Kitchen" type="Node3D" parent="Room"]
+visible = false
+
+[node name="KitchenCounter" type="CSGBox3D" parent="Room/Kitchen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, -2.2)
+material_override = SubResource("Mat_Counter")
+size = Vector3(2.8, 0.95, 1.1)
+
+[node name="Fridge" type="CSGBox3D" parent="Room/Kitchen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.4, -2.4)
+material_override = SubResource("Mat_Fridge")
+size = Vector3(1.3, 2.8, 1.1)
+
+[node name="DiningTable" type="CSGBox3D" parent="Room/Kitchen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.42, -1.6)
+material_override = SubResource("Mat_WoodTable")
+size = Vector3(1.8, 0.85, 1.1)
+
+[node name="FoodPlate" type="CSGCylinder3D" parent="Room/Kitchen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.88, -1.6)
+material_override = SubResource("Mat_WhiteTrim")
+radius = 0.32
+height = 0.05
+
+[node name="ChiliDisplay" type="CSGSphere3D" parent="Room/Kitchen/FoodPlate"]
+transform = Transform3D(0.4, 0, 0, 0, 0.25, 0, 0, 0, 0.7, 0, 0.08, 0)
+material_override = SubResource("Mat_Chili")
+radius = 0.22
+
+[node name="Bathroom" type="Node3D" parent="Room"]
+visible = false
+
+[node name="Bathtub" type="CSGBox3D" parent="Room/Bathroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.45, -2)
+material_override = SubResource("Mat_Tub")
+size = Vector3(2.6, 0.85, 1.4)
+
+[node name="WaterMesh" type="CSGBox3D" parent="Room/Bathroom/Bathtub"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+material_override = SubResource("Mat_Water")
+size = Vector3(2.3, 0.1, 1.1)
+
+[node name="ShowerPole" type="CSGCylinder3D" parent="Room/Bathroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 1.5, -2.4)
+material_override = SubResource("Mat_WhiteTrim")
+radius = 0.05
+height = 2.8
+
+[node name="ShowerHead" type="CSGCylinder3D" parent="Room/Bathroom/ShowerPole"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -0.25, 1.3, 0)
+material_override = SubResource("Mat_WhiteTrim")
+radius = 0.22
+height = 0.06
+
+[node name="SinkMirror" type="CSGBox3D" parent="Room/Bathroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 2, -2.5)
+material_override = SubResource("Mat_GlassSky")
+size = Vector3(1.2, 1.5, 0.05)
+
+[node name="SoapBubbles" parent="Room/Bathroom" instance=ExtResource("3_bubbles")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.2)
+
+[node name="Bedroom" type="Node3D" parent="Room"]
+visible = false
+
+[node name="BedFrame" type="CSGBox3D" parent="Room/Bedroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.3, -2)
+material_override = SubResource("Mat_BedFrame")
+size = Vector3(2.5, 0.55, 1.7)
+
+[node name="Mattress" type="CSGBox3D" parent="Room/Bedroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.62, -2)
+material_override = SubResource("Mat_WhiteTrim")
+size = Vector3(2.4, 0.25, 1.6)
+
+[node name="Blanket" type="CSGBox3D" parent="Room/Bedroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.65, -2)
+material_override = SubResource("Mat_Blanket")
+size = Vector3(1.4, 0.26, 1.6)
+
+[node name="Pillow" type="CSGBox3D" parent="Room/Bedroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 0.78, -2)
+material_override = SubResource("Mat_PillowYellow")
+size = Vector3(0.55, 0.16, 1.1)
+
+[node name="Nightstand" type="CSGBox3D" parent="Room/Bedroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0.35, -2.2)
+material_override = SubResource("Mat_WoodTable")
+size = Vector3(0.85, 0.7, 0.85)
+
+[node name="NightLamp" type="CSGCylinder3D" parent="Room/Bedroom/Nightstand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+material_override = SubResource("Mat_PillowYellow")
+radius = 0.22
+height = 0.4
+
+[node name="SleepZzz" parent="Room/Bedroom" instance=ExtResource("4_sleep_zzz")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 2.2, 0.3)
 
 [node name="Yuki" parent="." instance=ExtResource("2_yuki")]
 
@@ -183,8 +318,14 @@ theme_override_constants/separation = 12
 
 [node name="HeroineName" type="Label" parent="UI/TopHUD/TopRow"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 14
 text = "🌸 Юки (Ур. 1)"
+
+[node name="RoomName" type="Label" parent="UI/TopHUD/TopRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
+theme_override_font_sizes/font_size = 14
+text = "🛋️ Гостиная"
 
 [node name="Currency" type="HBoxContainer" parent="UI/TopHUD/TopRow"]
 layout_mode = 2
@@ -204,28 +345,28 @@ size_flags_vertical = 8
 theme_override_constants/separation = 8
 
 [node name="HungerBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(90, 12)
+custom_minimum_size = Vector2(85, 12)
 layout_mode = 2
 size_flags_horizontal = 3
 value = 85.0
 show_percentage = false
 
 [node name="HygieneBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(90, 12)
+custom_minimum_size = Vector2(85, 12)
 layout_mode = 2
 size_flags_horizontal = 3
 value = 90.0
 show_percentage = false
 
 [node name="EnergyBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(90, 12)
+custom_minimum_size = Vector2(85, 12)
 layout_mode = 2
 size_flags_horizontal = 3
-value = 75.0
+value = 80.0
 show_percentage = false
 
 [node name="MoodBar" type="ProgressBar" parent="UI/TopHUD/StatsGrid"]
-custom_minimum_size = Vector2(90, 12)
+custom_minimum_size = Vector2(85, 12)
 layout_mode = 2
 size_flags_horizontal = 3
 value = 95.0
@@ -238,49 +379,153 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -170.0
-offset_top = -250.0
+offset_top = -260.0
 offset_right = 170.0
-offset_bottom = -200.0
+offset_bottom = -215.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="UI/DialogueBubble"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "Привет, хозяин! ✨"
 horizontal_alignment = 1
+autowrap_mode = 3
+mouse_filter = 2
 
-[node name="ActionsBar" type="HBoxContainer" parent="UI"]
+[node name="ActionsBar" type="Control" parent="UI"]
+layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -215.0
-offset_top = -75.0
+offset_top = -115.0
 offset_right = 215.0
-offset_bottom = -25.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="LivingActions" type="HBoxContainer" parent="UI/ActionsBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="PetBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+layout_mode = 2
+text = "💖 Гладить"
+
+[node name="SlapBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+layout_mode = 2
+text = "👋 Пощёчина"
+
+[node name="TickleBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+layout_mode = 2
+text = "🌸 Щекотка"
+
+[node name="LampBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+layout_mode = 2
+text = "💡 Торшер"
+
+[node name="MusicBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+layout_mode = 2
+text = "📻 Радио"
+
+[node name="VoiceBtn" type="Button" parent="UI/ActionsBar/LivingActions"]
+layout_mode = 2
+text = "🎙️"
+
+[node name="KitchenActions" type="HBoxContainer" parent="UI/ActionsBar"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="OnigiriBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+layout_mode = 2
+text = "🍙 Онигири (+25)"
+
+[node name="CakeBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+layout_mode = 2
+text = "🍰 Тортик (+35)"
+
+[node name="ChiliBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+layout_mode = 2
+text = "🌶️ Острый Чили!"
+
+[node name="TeaBtn" type="Button" parent="UI/ActionsBar/KitchenActions"]
+layout_mode = 2
+text = "🍵 Чай (+20)"
+
+[node name="BathroomActions" type="HBoxContainer" parent="UI/ActionsBar"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="SoapBtn" type="Button" parent="UI/ActionsBar/BathroomActions"]
+layout_mode = 2
+text = "🫧 Намылить мылом"
+
+[node name="ShowerBtn" type="Button" parent="UI/ActionsBar/BathroomActions"]
+layout_mode = 2
+text = "🚿 Тёплый душ (100%)"
+
+[node name="BedroomActions" type="HBoxContainer" parent="UI/ActionsBar"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="SleepBtn" type="Button" parent="UI/ActionsBar/BedroomActions"]
+layout_mode = 2
+text = "🌙 Выключить свет / Спать"
+
+[node name="RoomTabs" type="HBoxContainer" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="FeedBtn" type="Button" parent="UI/ActionsBar"]
+[node name="LivingTab" type="Button" parent="UI/RoomTabs"]
 layout_mode = 2
-text = "🍙 Угостить"
+text = "🛋️ Гостиная"
 
-[node name="PetBtn" type="Button" parent="UI/ActionsBar"]
+[node name="KitchenTab" type="Button" parent="UI/RoomTabs"]
 layout_mode = 2
-text = "💖 Гладить"
+text = "🍙 Кухня"
 
-[node name="SlapBtn" type="Button" parent="UI/ActionsBar"]
+[node name="BathroomTab" type="Button" parent="UI/RoomTabs"]
 layout_mode = 2
-text = "👋 Пощёчина"
+text = "🛁 Ванная"
 
-[node name="TickleBtn" type="Button" parent="UI/ActionsBar"]
+[node name="BedroomTab" type="Button" parent="UI/RoomTabs"]
 layout_mode = 2
-text = "🌸 Щекотка"
-
-[node name="VoiceBtn" type="Button" parent="UI/ActionsBar"]
-layout_mode = 2
-text = "🎙️ Слушать"
+text = "🛏️ Спальня"

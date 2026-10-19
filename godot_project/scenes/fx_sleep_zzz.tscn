@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsleepzzzfx441"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Zzz"]
+shading_mode = 0
+albedo_color = Color(0.65, 0.82, 1.0, 0.85)
+
+[sub_resource type="BoxMesh" id="Mesh_Z"]
+material = SubResource("Mat_Zzz")
+size = Vector3(0.08, 0.08, 0.02)
+
+[sub_resource type="Curve" id="Curve_ZScale"]
+_data = [Vector2(0, 0.3), 0.0, 2.0, 0, 0, Vector2(0.5, 1.0), 0.0, 0.0, 0, 0, Vector2(1, 0.2), -1.8, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTex_ZScale"]
+curve = SubResource("Curve_ZScale")
+
+[sub_resource type="ParticleProcessMaterial" id="Particles_ZMat"]
+direction = Vector3(0.3, 1, 0.1)
+spread = 20.0
+initial_velocity_min = 0.5
+initial_velocity_max = 1.1
+gravity = Vector3(0, 0.1, 0)
+scale_curve = SubResource("CurveTex_ZScale")
+
+[node name="SleepZzz" type="GPUParticles3D"]
+emitting = false
+amount = 8
+lifetime = 1.5
+process_material = SubResource("Particles_ZMat")
+draw_pass_1 = SubResource("Mesh_Z")

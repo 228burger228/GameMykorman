@@ -8,8 +8,13 @@ signal petted
 signal slapped
 signal tickled
 signal fed
+signal slept
+signal woke_up
+signal danced
+signal washed
+signal burned_spicy
 
-enum State { IDLE, PETTING, SLAPPED, TICKLED, LISTENING, EATING }
+enum State { IDLE, PETTING, SLAPPED, TICKLED, LISTENING, EATING, SLEEPING, SPICY, DANCING, BATHING }
 
 var current_state: State = State.IDLE
 var state_timer: float = 0.0
@@ -29,13 +34,15 @@ var state_timer: float = 0.0
 var look_target: Vector2 = Vector2.ZERO
 var pointer_down_time: float = 0.0
 var pointer_moved_dist: float = 0.0
+var pointer_is_down: bool = false
+var touch_started_on_head: bool = false
+var touch_down_global_pos: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	apply_hd_materials()
 	play_animation("idle")
 
 func apply_hd_materials() -> void:
-	# 1. Глаза
 	var eye_tex = TextureStudio.create_anime_eye_texture()
 	var eye_mat = StandardMaterial3D.new()
 	eye_mat.albedo_texture = eye_tex
@@ -44,14 +51,12 @@ func apply_hd_materials() -> void:
 	if left_eye: left_eye.material_override = eye_mat
 	if right_eye: right_eye.material_override = eye_mat
 
-	# 2. Лицо
 	var face_tex = TextureStudio.create_face_texture()
 	var face_mat = StandardMaterial3D.new()
 	face_mat.albedo_texture = face_tex
 	face_mat.roughness = 0.6
 	if head_mesh: head_mesh.material_override = face_mat
 
-	# 3. Свитер
 	var sweat_tex = TextureStudio.create_sweater_texture(Color(1.0, 0.44, 0.58))
 	var sweat_mat = StandardMaterial3D.new()
 	sweat_mat.albedo_texture = sweat_tex
@@ -59,13 +64,14 @@ func apply_hd_materials() -> void:
 	if torso_mesh: torso_mesh.material_override = sweat_mat
 
 func _process(delta: float) -> void:
-	state_timer -= delta
+	if current_state != State.SLEEPING:
+		state_timer -= delta
 
 	if current_state == State.IDLE:
-		# Тонкое слежение головой за взглядом поверх анимации
-		head.rotation.y = lerp_angle(head.rotation.y, look_target.x * 0.28, 6.0 * delta)
-		head.rotation.x = lerp_angle(head.rotation.x, -look_target.y * 0.18, 6.0 * delta)
-	elif state_timer <= 0.0 and current_state != State.IDLE:
+		# Плавное слежение взглядом за курсором
+		head.rotation.y = lerp_angle(head.rotation.y, look_target.x * 0.32, 6.0 * delta)
+		head.rotation.x = lerp_angle(head.rotation.x, -look_target.y * 0.20, 6.0 * delta)
+	elif current_state != State.SLEEPING and state_timer <= 0.0:
 		return_to_idle()
 
 func return_to_idle() -> void:
@@ -79,6 +85,8 @@ func play_animation(anim_name: String, custom_blend: float = 0.15) -> void:
 # --- ПУБЛИЧНЫЕ РЕАКЦИИ ТОМА (TALKING TOM FSM) ---
 
 func trigger_slap(from_left: bool = true) -> void:
+	if current_state == State.SLEEPING:
+		trigger_wake_up()
 	current_state = State.SLAPPED
 	state_timer = 0.95
 	var anim = "slap_left" if from_left else "slap_right"
@@ -91,6 +99,8 @@ func trigger_slap(from_left: bool = true) -> void:
 	slapped.emit()
 
 func trigger_pet() -> void:
+	if current_state == State.SLEEPING:
+		return
 	if current_state != State.PETTING:
 		current_state = State.PETTING
 		play_animation("pet", 0.2)
@@ -98,10 +108,12 @@ func trigger_pet() -> void:
 		if hearts_burst:
 			hearts_burst.restart()
 			hearts_burst.emitting = true
-	state_timer = 0.7
+	state_timer = 0.75
 	petted.emit()
 
 func trigger_tickle() -> void:
+	if current_state == State.SLEEPING:
+		trigger_wake_up()
 	current_state = State.TICKLED
 	state_timer = 0.85
 	play_animation("tickle", 0.1)
@@ -109,15 +121,61 @@ func trigger_tickle() -> void:
 	tickled.emit()
 
 func trigger_eat() -> void:
+	if current_state == State.SLEEPING:
+		trigger_wake_up()
 	current_state = State.EATING
 	state_timer = 1.45
 	play_animation("eat", 0.1)
 	play_sound(SoundEffects.get_crunch_sound())
 	fed.emit()
 
+func trigger_spicy() -> void:
+	if current_state == State.SLEEPING:
+		trigger_wake_up()
+	current_state = State.SPICY
+	state_timer = 1.3
+	play_animation("spicy", 0.08)
+	play_sound(SoundEffects.get_spicy_sound())
+	burned_spicy.emit()
+
+func trigger_sleep() -> void:
+	current_state = State.SLEEPING
+	play_animation("sleep", 0.3)
+	play_sound(SoundEffects.get_yawn_sound())
+	slept.emit()
+
+func trigger_wake_up() -> void:
+	if current_state == State.SLEEPING:
+		current_state = State.IDLE
+		play_animation("idle", 0.2)
+		play_sound(SoundEffects.get_giggle_sound())
+		woke_up.emit()
+
+func trigger_dance() -> void:
+	if current_state == State.SLEEPING:
+		trigger_wake_up()
+	current_state = State.DANCING
+	state_timer = 2.4
+	play_animation("dance", 0.15)
+	danced.emit()
+
+func trigger_bath() -> void:
+	if current_state == State.SLEEPING:
+		trigger_wake_up()
+	current_state = State.BATHING
+	state_timer = 1.1
+	play_animation("bath", 0.15)
+	play_sound(SoundEffects.get_bubble_sound())
+	if hearts_burst:
+		hearts_burst.restart()
+		hearts_burst.emitting = true
+	washed.emit()
+
 func trigger_listen() -> void:
+	if current_state == State.SLEEPING:
+		trigger_wake_up()
 	current_state = State.LISTENING
-	state_timer = 3.2
+	state_timer = 3.0
 	play_animation("listen", 0.25)
 
 func play_sound(stream: AudioStream) -> void:
@@ -130,23 +188,40 @@ func set_look_target(viewport_relative: Vector2) -> void:
 
 # --- ОБРАБОТКА ХИТБОКСОВ И КАСАНИЙ ---
 
-func _on_head_area_input_event(_camera, event, _position, _normal, _shape_idx) -> void:
+func _on_head_area_input_event(_camera, event, click_position, _normal, _shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
+			pointer_is_down = true
+			touch_started_on_head = true
 			pointer_down_time = Time.get_ticks_msec() / 1000.0
 			pointer_moved_dist = 0.0
+			touch_down_global_pos = click_position
 		else:
-			var hold_time = (Time.get_ticks_msec() / 1000.0) - pointer_down_time
-			if hold_time < 0.22 and pointer_moved_dist < 12.0:
-				var is_left = (_position.x < head.global_position.x)
-				trigger_slap(is_left)
-			else:
-				trigger_pet()
+			_resolve_touch_release(click_position)
 	elif event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
 		pointer_moved_dist += event.relative.length()
-		if pointer_moved_dist > 20.0:
+		if pointer_moved_dist > 18.0:
 			trigger_pet()
 
 func _on_belly_area_input_event(_camera, event, _position, _normal, _shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		trigger_tickle()
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Глобальный перехват отпускания мыши (если курсор ушел за пределы хитбокса во время удара)
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		if pointer_is_down:
+			_resolve_touch_release(touch_down_global_pos)
+
+func _resolve_touch_release(hit_pos: Vector3) -> void:
+	if not pointer_is_down:
+		return
+	pointer_is_down = false
+	var hold_time = (Time.get_ticks_msec() / 1000.0) - pointer_down_time
+	if touch_started_on_head:
+		touch_started_on_head = false
+		if hold_time < 0.25 and pointer_moved_dist < 16.0:
+			var is_left = (hit_pos.x < head.global_position.x)
+			trigger_slap(is_left)
+		else:
+			trigger_pet()
