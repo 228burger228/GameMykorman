@@ -1,0 +1,141 @@
+[gd_scene load_steps=18 format=3 uid="uid://b8m3yuki4chibi"]
+
+[ext_resource type="Script" path="res://scripts/yuki.gd" id="1_yuki"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Skin"]
+albedo_color = Color(1, 0.93, 0.89, 1)
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="Mat_Sweater"]
+albedo_color = Color(1, 0.42, 0.55, 1)
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_Hair"]
+albedo_color = Color(1, 0.65, 0.76, 1)
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_White"]
+albedo_color = Color(1, 1, 1, 1)
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_Eyes"]
+albedo_color = Color(0.48, 0.25, 0.85, 1)
+roughness = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Boots"]
+albedo_color = Color(0.18, 0.14, 0.22, 1)
+roughness = 0.5
+
+[sub_resource type="CylinderMesh" id="Mesh_Body"]
+material = SubResource("Mat_Sweater")
+top_radius = 0.55
+bottom_radius = 0.85
+height = 1.35
+
+[sub_resource type="SphereShape3D" id="Shape_Belly"]
+radius = 0.8
+
+[sub_resource type="SphereMesh" id="Mesh_Head"]
+material = SubResource("Mat_Skin")
+radius = 0.88
+height = 1.76
+
+[sub_resource type="SphereShape3D" id="Shape_Head"]
+radius = 0.95
+
+[sub_resource type="SphereMesh" id="Mesh_Eye"]
+material = SubResource("Mat_Eyes")
+radius = 0.22
+height = 0.44
+
+[sub_resource type="SphereMesh" id="Mesh_Sparkle"]
+material = SubResource("Mat_White")
+radius = 0.07
+height = 0.14
+
+[sub_resource type="CylinderMesh" id="Mesh_Mouth"]
+material = SubResource("Mat_Boots")
+top_radius = 0.1
+bottom_radius = 0.05
+height = 0.08
+
+[sub_resource type="SphereMesh" id="Mesh_HairCap"]
+material = SubResource("Mat_Hair")
+radius = 0.95
+height = 1.8
+
+[sub_resource type="CylinderMesh" id="Mesh_Twintail"]
+material = SubResource("Mat_Hair")
+top_radius = 0.08
+bottom_radius = 0.35
+height = 1.4
+
+[sub_resource type="CylinderMesh" id="Mesh_Leg"]
+material = SubResource("Mat_Skin")
+top_radius = 0.16
+bottom_radius = 0.16
+height = 0.65
+
+[node name="Yuki" type="Node3D"]
+script = ExtResource("1_yuki")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+mesh = SubResource("Mesh_Body")
+
+[node name="BellyArea" type="Area3D" parent="Body"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/BellyArea"]
+shape = SubResource("Shape_Belly")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
+mesh = SubResource("Mesh_Head")
+
+[node name="HeadArea" type="Area3D" parent="Head"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/HeadArea"]
+shape = SubResource("Shape_Head")
+
+[node name="HairCap" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, -0.08)
+mesh = SubResource("Mesh_HairCap")
+
+[node name="LeftEye" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.4, -0.32, 0.05, 0.8)
+mesh = SubResource("Mesh_Eye")
+
+[node name="Sparkle" type="MeshInstance3D" parent="Head/LeftEye"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0.06, 0.2)
+mesh = SubResource("Mesh_Sparkle")
+
+[node name="RightEye" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.4, 0.32, 0.05, 0.8)
+mesh = SubResource("Mesh_Eye")
+
+[node name="Sparkle" type="MeshInstance3D" parent="Head/RightEye"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.06, 0.2)
+mesh = SubResource("Mesh_Sparkle")
+
+[node name="Mouth" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.8, 0, 0, 0, -8.74228e-09, -0.2, 0, 0.2, -8.74228e-09, 0, -0.28, 0.85)
+mesh = SubResource("Mesh_Mouth")
+
+[node name="LeftTwintail" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.877583, -0.479426, 0, 0.479426, 0.877583, 0, 0, 0, 1, -1.05, 0.15, -0.25)
+mesh = SubResource("Mesh_Twintail")
+
+[node name="RightTwintail" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.877583, 0.479426, 0, -0.479426, 0.877583, 0, 0, 0, 1, 1.05, 0.15, -0.25)
+mesh = SubResource("Mesh_Twintail")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.35, 0)
+mesh = SubResource("Mesh_Leg")
+
+[node name="RightLeg" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.35, 0)
+mesh = SubResource("Mesh_Leg")
+
+[connection signal="input_event" from="Body/BellyArea" to="." method="_on_belly_area_input_event"]
+[connection signal="input_event" from="Head/HeadArea" to="." method="_on_head_area_input_event"]
