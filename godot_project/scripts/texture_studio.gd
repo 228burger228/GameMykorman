@@ -88,8 +88,8 @@ static func create_face_texture() -> ImageTexture:
 			
 	return ImageTexture.create_from_image(img)
 
-# Свитер: яркий клубнично-розовый вязаный джемпер с золотым сердечком
-static func create_sweater_texture(sweater_color: Color = Color(0.96, 0.48, 0.64)) -> ImageTexture:
+# Свитер: яркий вязаный джемпер с уникальной эмблемой
+static func create_sweater_texture(sweater_color: Color = Color(0.96, 0.48, 0.64), emblem_style: String = "heart") -> ImageTexture:
 	var img = Image.create(256, 256, false, Image.FORMAT_RGBA8)
 	
 	for y in range(256):
@@ -101,15 +101,60 @@ static func create_sweater_texture(sweater_color: Color = Color(0.96, 0.48, 0.64
 			else:
 				col = col.darkened(0.05)
 				
-			# Золотистое сияющее сердечко по центру
 			var dx = (x - 128) / 32.0
 			var dy = (y - 130) / 32.0
-			var heart = pow(dx * dx + dy * dy - 1.0, 3) - dx * dx * dy * dy * dy
-			if heart <= 0.0:
-				col = Color(1.0, 0.85, 0.35)
-				
+
+			match emblem_style:
+				"heart":
+					# Золотистое сияющее сердечко по центру
+					var heart = pow(dx * dx + dy * dy - 1.0, 3) - dx * dx * dy * dy * dy
+					if heart <= 0.0:
+						col = Color(1.0, 0.85, 0.35)
+				"clover":
+					# Белый четырехлистный клевер
+					var r = sqrt(dx * dx + dy * dy)
+					var theta = atan2(dy, dx)
+					var petal = cos(4.0 * theta) * 0.4 + 0.6
+					if r <= petal:
+						col = Color(1.0, 1.0, 1.0)
+				"star":
+					# Неоново-бирюзовая звезда
+					var r = sqrt(dx * dx + dy * dy)
+					var theta = atan2(dy, dx)
+					var star_r = cos(5.0 * theta) * 0.45 + 0.55
+					if r <= star_r:
+						col = Color(0.4, 0.95, 1.0)
+				"paw":
+					# Кошачья золотая лапка
+					var main_pad = sqrt(dx * dx + pow(dy - 0.2, 2))
+					if main_pad <= 0.6:
+						col = Color(1.0, 0.9, 0.4)
+					for toe_i in range(3):
+						var tox = (toe_i - 1) * 0.5
+						var t_dist = sqrt(pow(dx - tox, 2) + pow(dy + 0.55, 2))
+						if t_dist <= 0.25:
+							col = Color(1.0, 0.9, 0.4)
+
 			img.set_pixel(x, y, col)
 			
+	return ImageTexture.create_from_image(img)
+
+# Волосы: шелковистые пряди с аниме-градиентом и мягким переливом
+static func create_hair_texture(base_color: Color = Color(0.98, 0.62, 0.78)) -> ImageTexture:
+	var img = Image.create(256, 256, false, Image.FORMAT_RGBA8)
+	for y in range(256):
+		for x in range(256):
+			var t = y / 256.0
+			# Градиент от мягкой макушки к слегка более насыщенным кончикам
+			var col = base_color.lightened(0.12).lerp(base_color.darkened(0.15), t)
+			# Мягкие продольные блики прядей
+			var streak = sin(x * 0.4) * 0.05 + sin(x * 0.15 + y * 0.02) * 0.03
+			col = col.lightened(streak)
+			# Аниме-ореол (Angel ring / кант блеска на уровне 30-40% высоты)
+			if y > 75 and y < 105:
+				var ring_t = 1.0 - abs(y - 90) / 15.0
+				col = col.lerp(Color(1.0, 1.0, 1.0), ring_t * 0.35)
+			img.set_pixel(x, y, col)
 	return ImageTexture.create_from_image(img)
 
 # Гостиная: Тёплый янтарный медовый дубовый паркет (живой и сочный, без серости)

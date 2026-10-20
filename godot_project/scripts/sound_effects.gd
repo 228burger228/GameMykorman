@@ -118,3 +118,55 @@ static func get_retro_tune_sound() -> AudioStreamWAV:
 		var sub = sin(t * (f * 0.5) * TAU) * 0.3
 		return (square * 0.3 + sub) * 0.35
 	)
+
+# Чиби-лепет / голос персонажа (Talking Yuki voice chirp)
+static func get_chibi_talk_sound(pitch_shift: float = 1.0) -> AudioStreamWAV:
+	return create_wav_sample(22050, 0.42, func(t, dur):
+		var step = int(t * 18.0)
+		var freqs = [659.25, 783.99, 880.00, 1046.50, 987.77, 880.00, 1174.66]
+		var base_f = freqs[step % freqs.size()] * pitch_shift
+		var vibrato = sin(t * 30.0) * 15.0
+		var f = base_f + vibrato
+		var env = sin(t / dur * PI) * (0.5 + 0.5 * sin(t * 36.0 * TAU))
+		var vocal_formant = sin(t * f * TAU) * 0.5 + sin(t * f * 2.0 * TAU) * 0.3 + sin(t * f * 3.0 * TAU) * 0.2
+		return vocal_formant * env * 0.65
+	)
+
+# Звук подбора сладкого бонуса в мини-игре
+static func get_item_pickup_sound() -> AudioStreamWAV:
+	return create_wav_sample(22050, 0.25, func(t, dur):
+		var env = exp(-t * 12.0)
+		var f = 880.0 + (t / dur) * 1200.0
+		var wave = sin(t * f * TAU) * 0.7 + sin(t * f * 2.0 * TAU) * 0.3
+		return wave * env * 0.6
+	)
+
+# Звук ошибки / попадания жгучего чили в корзину
+static func get_hazard_hit_sound() -> AudioStreamWAV:
+	return create_wav_sample(22050, 0.35, func(t, _dur):
+		var env = exp(-t * 10.0)
+		var f = 220.0 * exp(-t * 8.0)
+		var buzz = (1.0 if fmod(t * f, 1.0) > 0.5 else -1.0) * 0.6
+		var noise = (randf() * 2.0 - 1.0) * 0.4
+		return (buzz + noise) * env * 0.7
+	)
+
+# Победный фанфар мини-игры
+static func get_victory_fanfare_sound() -> AudioStreamWAV:
+	return create_wav_sample(22050, 1.2, func(t, _dur):
+		var notes = [523.25, 659.25, 783.99, 1046.50]
+		var idx = min(int(t * 5.0), notes.size() - 1)
+		var f = notes[idx]
+		var env = exp(-fmod(t, 0.2) * 8.0) if t < 0.6 else exp(-(t - 0.6) * 4.0)
+		var square = 1.0 if fmod(t * f, 1.0) > 0.5 else -1.0
+		return (square * 0.4 + sin(t * f * TAU) * 0.4) * env * 0.65
+	)
+
+# Экипировка в гардеробе (магический блеск)
+static func get_dressup_sparkle_sound() -> AudioStreamWAV:
+	return create_wav_sample(22050, 0.32, func(t, dur):
+		var env = exp(-t * 9.0)
+		var f = 1200.0 + sin(t * 40.0) * 600.0
+		var bell = sin(t * f * TAU) * 0.75
+		return bell * env * 0.5
+	)

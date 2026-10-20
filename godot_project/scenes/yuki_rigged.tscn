@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://yriggedyuki442"]
+[gd_scene load_steps=37 format=3 uid="uid://yriggedyuki442"]
 
 [ext_resource type="Script" path="res://scripts/yuki_controller.gd" id="1_controller"]
 [ext_resource type="PackedScene" uid="uid://bstarfx9921" path="res://scenes/fx_impact_stars.tscn" id="2_impact_stars"]
@@ -139,6 +139,31 @@ radius = 0.68
 
 [sub_resource type="SphereShape3D" id="Shape_Belly"]
 radius = 0.58
+
+[sub_resource type="StandardMaterial3D" id="Mat_Gold"]
+albedo_color = Color(1, 0.85, 0.22, 1)
+metallic = 0.85
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Mat_RedBow"]
+albedo_color = Color(0.96, 0.16, 0.28, 1)
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="Mesh_GlassesRim"]
+material = SubResource("Mat_Gold")
+size = Vector3(0.22, 0.16, 0.03)
+
+[sub_resource type="BoxMesh" id="Mesh_GlassesBridge"]
+material = SubResource("Mat_Gold")
+size = Vector3(0.12, 0.03, 0.03)
+
+[sub_resource type="BoxMesh" id="Mesh_HeadBow"]
+material = SubResource("Mat_RedBow")
+size = Vector3(0.42, 0.16, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_StarClip"]
+material = SubResource("Mat_Gold")
+size = Vector3(0.14, 0.14, 0.04)
 
 [sub_resource type="Animation" id="Animation_idle"]
 resource_name = "idle"
@@ -975,6 +1000,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Root/Hips/Spine/Neck/Head/HeadArea"]
 shape = SubResource("Shape_Head")
+
+[node name="AccGlasses" type="Node3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0.52)
+visible = false
+
+[node name="LeftRim" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/AccGlasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0, 0)
+mesh = SubResource("Mesh_GlassesRim")
+
+[node name="RightRim" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/AccGlasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 0, 0)
+mesh = SubResource("Mesh_GlassesRim")
+
+[node name="Bridge" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head/AccGlasses"]
+mesh = SubResource("Mesh_GlassesBridge")
+
+[node name="AccHeadBow" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0.62, 0.05)
+visible = false
+mesh = SubResource("Mesh_HeadBow")
+
+[node name="AccStarClip" type="MeshInstance3D" parent="Root/Hips/Spine/Neck/Head"]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -0.38, 0.35, 0.45)
+visible = false
+mesh = SubResource("Mesh_StarClip")
 
 [connection signal="input_event" from="Root/Hips/Spine/BellyArea" to="." method="_on_belly_area_input_event"]
 [connection signal="input_event" from="Root/Hips/Spine/Neck/Head/HeadArea" to="." method="_on_head_area_input_event"]

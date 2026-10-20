@@ -557,6 +557,16 @@ theme_override_colors/font_color = Color(1, 0.92, 0.45, 1)
 theme_override_font_sizes/font_size = 12
 text = "350"
 
+[node name="WardrobeBtn" type="Button" parent="UI/TopHUD/HBox"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+text = "👗"
+
+[node name="ArcadeBtn" type="Button" parent="UI/TopHUD/HBox"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+text = "🎮"
+
 [node name="VSep" type="VSeparator" parent="UI/TopHUD/HBox"]
 layout_mode = 2
 

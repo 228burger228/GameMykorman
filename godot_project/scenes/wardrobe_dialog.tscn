@@ -1,0 +1,152 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwardrobe8821"]
+
+[ext_resource type="Script" path="res://scripts/wardrobe_dialog.gd" id="1_wardrobe"]
+
+[sub_resource type="StyleBoxFlat" id="Style_WardrobeModal"]
+bg_color = Color(0.11, 0.08, 0.22, 0.96)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.72, 0.85, 0.75)
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="Style_GoldBadge"]
+bg_color = Color(0.18, 0.14, 0.32, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.35, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="Style_TabBtn"]
+bg_color = Color(0.18, 0.14, 0.32, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+border_width_bottom = 2
+border_color = Color(0.9, 0.45, 0.65, 0.8)
+
+[sub_resource type="Theme" id="Theme_Wardrobe"]
+Button/styles/normal = SubResource("Style_TabBtn")
+
+[node name="WardrobeDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wardrobe")
+
+[node name="DimOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.03, 0.12, 0.85)
+
+[node name="Modal" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -205.0
+offset_top = -260.0
+offset_right = 205.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_Wardrobe")
+theme_override_styles/panel = SubResource("Style_WardrobeModal")
+
+[node name="VBox" type="VBoxContainer" parent="Modal"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Modal/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Title" type="Label" parent="Modal/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.85, 0.92, 1)
+theme_override_font_sizes/font_size = 15
+text = "👗 СТУДИЯ СТИЛЯ ЮКИ"
+
+[node name="GoldBox" type="PanelContainer" parent="Modal/VBox/Header"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_GoldBadge")
+
+[node name="HBox" type="HBoxContainer" parent="Modal/VBox/Header/GoldBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="Label" parent="Modal/VBox/Header/GoldBox/HBox"]
+layout_mode = 2
+text = "🪙"
+
+[node name="GoldLabel" type="Label" parent="Modal/VBox/Header/GoldBox/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "350"
+
+[node name="CloseBtn" type="Button" parent="Modal/VBox/Header"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+text = "✕"
+
+[node name="Tabs" type="HBoxContainer" parent="Modal/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="SweatersTab" type="Button" parent="Modal/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "👕 Свитер"
+
+[node name="HairTab" type="Button" parent="Modal/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "💇 Волосы"
+
+[node name="AccTab" type="Button" parent="Modal/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🎀 Аксессуары"
+
+[node name="HSep" type="HSeparator" parent="Modal/VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Modal/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemsList" type="VBoxContainer" parent="Modal/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]

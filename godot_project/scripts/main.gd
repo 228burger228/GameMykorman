@@ -2,6 +2,9 @@ extends Node3D
 
 const TextureStudio = preload("res://scripts/texture_studio.gd")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
+const SaveManager = preload("res://scripts/save_manager.gd")
+const MinigameCatcherScene = preload("res://scenes/minigame_catcher.tscn")
+const WardrobeDialogScene = preload("res://scenes/wardrobe_dialog.tscn")
 
 enum RoomType { LIVING, KITCHEN, BATHROOM, BEDROOM }
 
@@ -14,6 +17,9 @@ enum RoomType { LIVING, KITCHEN, BATHROOM, BEDROOM }
 @onready var mood_bar: ProgressBar = $UI/TopHUD/HBox/StatsGrid/MoodCol/MoodBar
 @onready var gold_label: Label = $UI/TopHUD/HBox/Currency/GoldLabel
 @onready var room_name_label: Label = $UI/TopHUD/HBox/RoomName
+
+@onready var wardrobe_btn: Button = $UI/TopHUD/HBox/WardrobeBtn
+@onready var arcade_btn: Button = $UI/TopHUD/HBox/ArcadeBtn
 
 @onready var floor_mesh: MeshInstance3D = $Room/Floor
 @onready var wall_mesh: MeshInstance3D = $Room/BackWall
@@ -45,6 +51,7 @@ enum RoomType { LIVING, KITCHEN, BATHROOM, BEDROOM }
 @onready var sleep_zzz: GPUParticles3D = $Room/Bedroom/SleepZzz
 
 var current_room: RoomType = RoomType.LIVING
+var save_data: Dictionary = {}
 var hunger: float = 85.0
 var hygiene: float = 90.0
 var energy: float = 80.0
@@ -54,8 +61,24 @@ var gold: int = 350
 var is_lamp_on: bool = true
 var is_music_playing: bool = false
 var is_night_lamp_on: bool = true
+var auto_save_timer: float = 15.0
 
 func _ready() -> void:
+	# Загрузка сохранений
+	save_data = SaveManager.load_game()
+	gold = save_data.get("gold", 350)
+	hunger = save_data.get("hunger", 85.0)
+	hygiene = save_data.get("hygiene", 90.0)
+	energy = save_data.get("energy", 80.0)
+	mood = save_data.get("mood", 95.0)
+
+	if yuki and yuki.has_method("apply_customization"):
+		yuki.apply_customization(
+			save_data.get("equipped_sweater", "sweater_strawberry"),
+			save_data.get("equipped_hair", "hair_sakura"),
+			save_data.get("equipped_acc", "acc_none")
+		)
+
 	# Подключение сигналов персонажа
 	if yuki.has_signal("petted"):
 		yuki.petted.connect(_on_yuki_petted)
@@ -75,6 +98,12 @@ func _ready() -> void:
 	kitchen_tab_btn.pressed.connect(func(): switch_room(RoomType.KITCHEN))
 	bathroom_tab_btn.pressed.connect(func(): switch_room(RoomType.BATHROOM))
 	bedroom_tab_btn.pressed.connect(func(): switch_room(RoomType.BEDROOM))
+
+	# Кнопки быстрого меню: Гардероб и Мини-игра
+	if wardrobe_btn:
+		wardrobe_btn.pressed.connect(open_wardrobe)
+	if arcade_btn:
+		arcade_btn.pressed.connect(open_minigame)
 
 	# Действия: Гостиная
 	$UI/ActionsBar/LivingActions/PetBtn.pressed.connect(_on_pet_btn_pressed)
@@ -121,6 +150,12 @@ func _process(delta: float) -> void:
 	hygiene = max(0.0, hygiene - 0.2 * delta)
 	mood = max(0.0, mood - 0.3 * delta)
 	update_hud()
+
+	# Периодическое автосохранение
+	auto_save_timer -= delta
+	if auto_save_timer <= 0.0:
+		auto_save_timer = 15.0
+		save_current_state()
 
 # --- СИСТЕМА ПЕРЕКЛЮЧЕНИЯ КОМНАТ ---
 
@@ -376,7 +411,104 @@ func _on_tickle_btn_pressed() -> void:
 func _on_voice_btn_pressed() -> void:
 	if yuki.has_method("trigger_listen"):
 		yuki.trigger_listen()
-	show_speech("Я внимательно слушаю тебя! (Режим Тома: приставила лапку к ушку) 🎙️")
+	show_speech("Я внимательно слушаю тебя! 🎙️")
+	
+	# Через небольшую паузу Юки забавно отвечает с анимацией рта
+	var timer = get_tree().create_timer(1.0)
+	timer.timeout.connect(func():
+		if yuki and yuki.has_method("trigger_talk"):
+			yuki.trigger_talk(randf_range(0.95, 1.25))
+		
+		var quotes = []
+		match current_room:
+			RoomType.LIVING:
+				quotes = [
+					"Я обожаю, когда ты проводишь со мной время! ✨",
+					"Давай включим музыку в радио и потанцуем! 🎶💃",
+					"Ты самый заботливый друг на свете! 🌸",
+					"Сыграем в Сладкий звездопад? Нажми на 🎮 вверху! 🍓"
+				]
+			RoomType.KITCHEN:
+				quotes = [
+					"М-м-м, пахнет так вкусно! Пора перекусить онигири! 🍙",
+					"А тортик сегодня будет? Пожалуйста-пожалуйста! 🍰✨",
+					"Только не корми меня больше тем острым перцем чили! 🌶️😅"
+				]
+			RoomType.BATHROOM:
+				quotes = [
+					"Пузырики такие радужные и блестящие! 🫧",
+					"Теплая ванна — это рай после активного дня! 🛁",
+					"Смотри, какой большой мыльный пузырь лопнул! 🫧✨"
+				]
+			RoomType.BEDROOM:
+				quotes = [
+					"Звёзды за окном так ярко сияют... 🌙",
+					"Почитаешь мне сказку на ночь? 💤",
+					"Я уже сладко зеваю... Спокойной ночи, хозяин! 😴"
+				]
+		show_speech(quotes[randi() % quotes.size()])
+	)
+
+func open_wardrobe() -> void:
+	save_current_state()
+	var wardrobe_instance = WardrobeDialogScene.instantiate()
+	$UI.add_child(wardrobe_instance)
+	wardrobe_instance.init_wardrobe(save_data)
+	
+	wardrobe_instance.item_equipped.connect(func(category, item_id):
+		match category:
+			"sweaters":
+				save_data["equipped_sweater"] = item_id
+				if yuki and yuki.has_method("set_sweater_style"):
+					yuki.set_sweater_style(item_id)
+			"hair":
+				save_data["equipped_hair"] = item_id
+				if yuki and yuki.has_method("set_hair_style"):
+					yuki.set_hair_style(item_id)
+			"accessories":
+				save_data["equipped_acc"] = item_id
+				if yuki and yuki.has_method("set_accessory"):
+					yuki.set_accessory(item_id)
+		SaveManager.save_game(save_data)
+	)
+
+	wardrobe_instance.wardrobe_closed.connect(func(updated_data):
+		save_data = updated_data
+		gold = save_data.get("gold", gold)
+		update_hud()
+		SaveManager.save_game(save_data)
+		show_speech("Какой потрясающий новый наряд! Мне так идет! 👗✨")
+	)
+
+func open_minigame() -> void:
+	save_current_state()
+	var minigame_instance = MinigameCatcherScene.instantiate()
+	$UI.add_child(minigame_instance)
+
+	minigame_instance.minigame_closed.connect(func(earned_gold: int):
+		gold += earned_gold
+		mood = 100.0
+		save_current_state()
+		update_hud()
+		if yuki and yuki.has_method("trigger_dance"):
+			yuki.trigger_dance()
+		show_speech("Ура-а-а! Отличная игра! Заработано +" + str(earned_gold) + " 🪙! Моё настроение на максимуме! 🍓✨")
+	)
+
+func save_current_state() -> void:
+	save_data["gold"] = gold
+	save_data["hunger"] = hunger
+	save_data["hygiene"] = hygiene
+	save_data["energy"] = energy
+	save_data["mood"] = mood
+	if yuki:
+		if "current_sweater_id" in yuki:
+			save_data["equipped_sweater"] = yuki.current_sweater_id
+		if "current_hair_id" in yuki:
+			save_data["equipped_hair"] = yuki.current_hair_id
+		if "current_acc_id" in yuki:
+			save_data["equipped_acc"] = yuki.current_acc_id
+	SaveManager.save_game(save_data)
 
 func show_speech(text: String) -> void:
 	dialogue_label.text = text

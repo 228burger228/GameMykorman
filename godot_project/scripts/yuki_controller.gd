@@ -28,8 +28,28 @@ var state_timer: float = 0.0
 @onready var jaw: Node3D = $Root/Hips/Spine/Neck/Head/Jaw
 @onready var head_mesh: MeshInstance3D = $Root/Hips/Spine/Neck/Head/HeadMesh
 @onready var torso_mesh: MeshInstance3D = $Root/Hips/Spine/TorsoMesh
+@onready var collar: MeshInstance3D = $Root/Hips/Spine/Collar
+@onready var left_arm: MeshInstance3D = $Root/Hips/Spine/LeftArm/ArmMesh
+@onready var right_arm: MeshInstance3D = $Root/Hips/Spine/RightArm/ArmMesh
 @onready var left_eye: MeshInstance3D = $Root/Hips/Spine/Neck/Head/LeftEye
 @onready var right_eye: MeshInstance3D = $Root/Hips/Spine/Neck/Head/RightEye
+
+@onready var hair_cap: MeshInstance3D = $Root/Hips/Spine/Neck/Head/HairCap
+@onready var bangs: MeshInstance3D = $Root/Hips/Spine/Neck/Head/Bangs
+@onready var left_twintail: MeshInstance3D = $Root/Hips/Spine/Neck/Head/LeftTwintail/TailMesh
+@onready var right_twintail: MeshInstance3D = $Root/Hips/Spine/Neck/Head/RightTwintail/TailMesh
+@onready var left_ear: Node3D = $Root/Hips/Spine/Neck/Head/LeftEar
+@onready var right_ear: Node3D = $Root/Hips/Spine/Neck/Head/RightEar
+
+@onready var acc_glasses: Node3D = $Root/Hips/Spine/Neck/Head/AccGlasses
+@onready var acc_head_bow: MeshInstance3D = $Root/Hips/Spine/Neck/Head/AccHeadBow
+@onready var acc_star_clip: MeshInstance3D = $Root/Hips/Spine/Neck/Head/AccStarClip
+
+var current_sweater_id: String = "sweater_strawberry"
+var current_hair_id: String = "hair_sakura"
+var current_acc_id: String = "acc_none"
+
+var talking_timer: float = 0.0
 
 var look_target: Vector2 = Vector2.ZERO
 var pointer_down_time: float = 0.0
@@ -57,15 +77,96 @@ func apply_hd_materials() -> void:
 	face_mat.roughness = 0.6
 	if head_mesh: head_mesh.material_override = face_mat
 
-	var sweat_tex = TextureStudio.create_sweater_texture(Color(0.96, 0.48, 0.64))
+	apply_customization(current_sweater_id, current_hair_id, current_acc_id)
+
+func apply_customization(sweater_id: String, hair_id: String, acc_id: String) -> void:
+	set_sweater_style(sweater_id)
+	set_hair_style(hair_id)
+	set_accessory(acc_id)
+
+func set_sweater_style(sweater_id: String) -> void:
+	current_sweater_id = sweater_id
+	var col = Color(0.96, 0.48, 0.64)
+	var emblem = "heart"
+	match sweater_id:
+		"sweater_strawberry":
+			col = Color(0.96, 0.48, 0.64)
+			emblem = "heart"
+		"sweater_mint":
+			col = Color(0.35, 0.85, 0.65)
+			emblem = "clover"
+		"sweater_cyber":
+			col = Color(0.20, 0.24, 0.48)
+			emblem = "star"
+		"sweater_honey":
+			col = Color(0.98, 0.72, 0.25)
+			emblem = "paw"
+
+	var sweat_tex = TextureStudio.create_sweater_texture(col, emblem)
 	var sweat_mat = StandardMaterial3D.new()
 	sweat_mat.albedo_texture = sweat_tex
 	sweat_mat.roughness = 0.75
 	if torso_mesh: torso_mesh.material_override = sweat_mat
 
+	var trim_mat = StandardMaterial3D.new()
+	trim_mat.albedo_color = col.lightened(0.15)
+	trim_mat.roughness = 0.7
+	if collar: collar.material_override = trim_mat
+	if left_arm: left_arm.material_override = trim_mat
+	if right_arm: right_arm.material_override = trim_mat
+
+func set_hair_style(hair_id: String) -> void:
+	current_hair_id = hair_id
+	var base_col = Color(0.98, 0.62, 0.78)
+	match hair_id:
+		"hair_sakura":
+			base_col = Color(0.98, 0.62, 0.78)
+		"hair_azure":
+			base_col = Color(0.32, 0.68, 0.98)
+		"hair_golden":
+			base_col = Color(1.0, 0.84, 0.38)
+		"hair_lavender":
+			base_col = Color(0.78, 0.60, 0.95)
+
+	var hair_tex = TextureStudio.create_hair_texture(base_col)
+	var hair_mat = StandardMaterial3D.new()
+	hair_mat.albedo_texture = hair_tex
+	hair_mat.roughness = 0.35
+
+	if hair_cap: hair_cap.material_override = hair_mat
+	if bangs: bangs.material_override = hair_mat
+	if left_twintail: left_twintail.material_override = hair_mat
+	if right_twintail: right_twintail.material_override = hair_mat
+	if left_ear and left_ear.has_node("EarMesh"):
+		(left_ear.get_node("EarMesh") as MeshInstance3D).material_override = hair_mat
+	if right_ear and right_ear.has_node("EarMesh"):
+		(right_ear.get_node("EarMesh") as MeshInstance3D).material_override = hair_mat
+
+func set_accessory(acc_id: String) -> void:
+	current_acc_id = acc_id
+	if acc_glasses: acc_glasses.visible = (acc_id == "acc_glasses")
+	if acc_head_bow: acc_head_bow.visible = (acc_id == "acc_bow")
+	if acc_star_clip: acc_star_clip.visible = (acc_id == "acc_star")
+	var is_neko = (acc_id == "acc_neko" or acc_id == "acc_none" or acc_id == "")
+	if left_ear: left_ear.visible = is_neko
+	if right_ear: right_ear.visible = is_neko
+
+func trigger_talk(pitch_variation: float = 1.0) -> void:
+	talking_timer = 0.85
+	play_sound(SoundEffects.get_chibi_talk_sound(pitch_variation))
+
 func _process(delta: float) -> void:
 	if current_state != State.SLEEPING:
 		state_timer -= delta
+
+	# Анимация шевеления ртом при разговоре
+	if talking_timer > 0.0:
+		talking_timer -= delta
+		var jaw_open = sin(talking_timer * 28.0) * 0.04
+		if jaw:
+			jaw.position.y = -0.16 + max(0.0, jaw_open)
+	elif jaw and jaw.position.y != -0.16:
+		jaw.position.y = -0.16
 
 	if current_state == State.IDLE:
 		# Плавное слежение взглядом за курсором
